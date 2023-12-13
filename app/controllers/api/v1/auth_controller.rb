@@ -6,7 +6,7 @@ class Api::V1::AuthController < ApplicationController
     username = params[:username]
     password = params[:password]
 
-    account = Auth.find_by(Username: username)
+    account = Auth.find_by(Username: username, Password: password)
 
     if account
       payload = { 
