@@ -8,6 +8,9 @@ Bundler.require(*Rails.groups)
 
 module BackendMnm
   class Application < Rails::Application
+   # Trong config/application.rb hoặc trong mô-đun cấu hình
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.1
 
