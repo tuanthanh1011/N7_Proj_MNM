@@ -28,7 +28,6 @@ class Api::V1::AuthController < ApplicationController
           expires: 1.hour.from_now,
           httponly: true,
           secure: false,
-          path: '/',
           same_site: :none
         }
       )
@@ -39,7 +38,6 @@ class Api::V1::AuthController < ApplicationController
           expires: 1.hour.from_now,
           httponly: true,
           secure: false,
-          path: '/',
           same_site: :none
         }
       )
