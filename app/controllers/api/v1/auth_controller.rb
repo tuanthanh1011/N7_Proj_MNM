@@ -2,7 +2,8 @@ require 'jwt'
 
 class Api::V1::AuthController < ApplicationController
   def login
-    hmac_secret = 'TuanThanh'
+    hmac_secret_access = 'TuanThanh'
+    hmac_secret_refresh = 'TuanThanhDayNe'
     username = params[:username]
     password = params[:password]
 
@@ -17,16 +18,29 @@ class Api::V1::AuthController < ApplicationController
 
       expiration_time_access = 1.hour.from_now.to_i
       expiration_time_refresh = 1.year.from_now.to_i
-      
-      access_token = JWT.encode payload, hmac_secret, 'HS256', exp: expiration_time_access
-      refresh_token = JWT.encode payload, hmac_secret, 'HS256', exp: expiration_time_refresh
+
+      access_token = JWT.encode payload, hmac_secret_access, 'HS256', exp: expiration_time_access
+      refresh_token = JWT.encode payload, hmac_secret_refresh, 'HS256', exp: expiration_time_refresh
 
       response.set_cookie(
         :access_token, {
           value: access_token,
           expires: 1.hour.from_now,
           httponly: true,
-          secure: false
+          secure: false,
+          path: '/',
+          same_site: :none
+        }
+      )
+
+      response.set_cookie(
+        :refresh_token, {
+          value: refresh_token,
+          expires: 1.hour.from_now,
+          httponly: true,
+          secure: false,
+          path: '/',
+          same_site: :none
         }
       )
 
