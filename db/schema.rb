@@ -10,15 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_12_144224) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_13_073834) do
   create_table "activity", primary_key: "ActivityCode", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.string "ActivityName", null: false
     t.date "BeginingDate", null: false
     t.string "Manager", null: false
     t.float "SupportMoney", limit: 53, null: false
     t.text "Description", null: false
-    t.date "CreatedAt", default: -> { "current_timestamp()" }, null: false
-    t.date "UpdatedAt", default: -> { "current_timestamp()" }, null: false
+    t.date "CreatedAt", null: false
+    t.date "UpdatedAt", null: false
+  end
+
+  create_table "auths", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "AccountCode"
+    t.string "UserName"
+    t.string "Password"
+    t.boolean "Role"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "interview", primary_key: "InterviewCode", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
@@ -31,8 +40,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_12_144224) do
   create_table "rating", primary_key: "RatingCode", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.integer "RatingStar", null: false
     t.text "Description", null: false
-    t.date "CreatedAt", default: -> { "current_timestamp()" }, null: false
-    t.date "UpdatedAt", default: -> { "current_timestamp()" }, null: false
+    t.date "CreatedAt", null: false
+    t.date "UpdatedAt", null: false
   end
 
   create_table "student", primary_key: "StudentCode", id: { type: :string, limit: 50 }, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
@@ -40,10 +49,10 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_12_144224) do
     t.string "ClassName", null: false
     t.string "PhoneNumber", null: false
     t.string "Email", null: false
-    t.integer "AccountCode", null: false
+    t.integer "AccountCode"
     t.boolean "isVolunteerStudent", default: false, null: false
-    t.date "CreatedAt", default: -> { "current_timestamp()" }, null: false
-    t.date "UpdateAt", default: -> { "current_timestamp()" }, null: false
+    t.date "CreatedAt"
+    t.date "UpdateAt"
     t.index ["AccountCode"], name: "Student_Account"
   end
 
@@ -67,8 +76,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_12_144224) do
     t.string "Username", null: false
     t.string "Password", null: false
     t.boolean "Role"
-    t.date "CreatedAt", default: -> { "current_timestamp()" }, null: false
-    t.date "UpdatedAt", default: -> { "current_timestamp()" }, null: false
+    t.date "CreatedAt", null: false
+    t.date "UpdatedAt", null: false
   end
 
   add_foreign_key "student", "volunteer_account", column: "AccountCode", primary_key: "AccountCode", name: "Student_Account"
