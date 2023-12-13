@@ -15,8 +15,11 @@ class Api::V1::AuthController < ApplicationController
         Role: account.Role
       }
 
-      expiration_time = 1.hour.from_now.to_i
-      access_token = JWT.encode payload, hmac_secret, 'HS256', exp: expiration_time
+      expiration_time_access = 1.hour.from_now.to_i
+      expiration_time_refresh = 1.year.from_now.to_i
+      
+      access_token = JWT.encode payload, hmac_secret, 'HS256', exp: expiration_time_access
+      refresh_token = JWT.encode payload, hmac_secret, 'HS256', exp: expiration_time_refresh
 
       response.set_cookie(
         :access_token, {
@@ -47,7 +50,7 @@ class Api::V1::AuthController < ApplicationController
   end
 
   def refresh
-    
+    access_token_cookie = cookies[:accessToken]
   end
 
   def check_cookie
