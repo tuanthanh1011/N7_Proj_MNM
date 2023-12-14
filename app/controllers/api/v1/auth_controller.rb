@@ -31,10 +31,11 @@ class Api::V1::AuthController < ApplicationController
       student = Student.find_by(AccountCode: account.AccountCode)
       # Dữ liệu tạo token
       payload = { 
-        Username: account.Username,
-        AccountCode: account.AccountCode,
-        StudentCode: student&.StudentCode,
-        Role: account.Role
+        userName: account.Username,
+        accountCode: account.AccountCode,
+        studentCode: student&.StudentCode,
+        name: student&.StudentName || "admin",
+        role: account.Role
       }
 
       #Tạo access token và refresh token
@@ -56,10 +57,11 @@ class Api::V1::AuthController < ApplicationController
       render_response("Đăng nhập thành công", data: {
         accessToken: access_token,
         account: {
-          Username: account.Username,
-          AccountCode: account.AccountCode,
-          StudentCode: student&.StudentCode,
-          Role: account.Role
+          userName: account.Username,
+          accountCode: account.AccountCode,
+          studentCode: student&.StudentCode,
+          name: student&.StudentName || "admin",
+          role: account.Role
         } 
       }, 
       status: 201

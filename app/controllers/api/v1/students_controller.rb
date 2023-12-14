@@ -29,14 +29,15 @@ class Api::V1::StudentsController < ApplicationController
     
     begin
       if student.save
-        render_response("Thêm mới sinh viên thành công", data: student)
+        render_response("Thêm mới sinh viên thành công", data: student, status: 201)
       else
-        render_response("Có lỗi khi thêm sinh viên", nil, student.errors.full_messages)
+        render_response("Có lỗi khi thêm sinh viên", status: 400)
       end
     rescue ActiveRecord::InvalidForeignKey => e
       custom_message = "Không tồn tại tài khoản"
       render_response(custom_message)
     end
+    
   end
 
   def update
