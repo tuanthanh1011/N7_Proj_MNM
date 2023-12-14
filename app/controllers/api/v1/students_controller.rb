@@ -1,15 +1,16 @@
+
 class Api::V1::StudentsController < ApplicationController
   def index
     students = Student.all
-    render_response("Hiển thị danh sách sinh viên", students)
+    render_response("Hiển thị danh sách sinh viên", data: students)
   end
 
   def show
     student = Student.find_by(StudentCode: params[:id])
     if student
-      render_response("Hiển thị sinh viên theo mã sinh viên", student)
+      render_response("Hiển thị sinh viên theo mã sinh viên", data: student)
     else 
-      render_response("Không tìm thấy sinh viên", student)
+      render_response("Không tìm thấy sinh viên")
     end
   end
 
@@ -24,9 +25,11 @@ class Api::V1::StudentsController < ApplicationController
       isVolunteerStudent: student_params[:isVolunteerStudent]
     )
 
+    student.CreatedAt = Time.now
+    
     begin
       if student.save
-        render_response("Thêm mới sinh viên thành công", student)
+        render_response("Thêm mới sinh viên thành công", data: student)
       else
         render_response("Có lỗi khi thêm sinh viên", nil, student.errors.full_messages)
       end
@@ -48,13 +51,14 @@ class Api::V1::StudentsController < ApplicationController
           Email: student_params[:Email],
           AccountCode: student_params[:AccountCode],
           isVolunteerStudent: student_params[:isVolunteerStudent])
-          render_response("Cập nhật sinh viên thành công", student
+          render_response("Cập nhật sinh viên thành công", data: student
         )
+        student.UpdatedAt = Time.now
         else
           render_response("Có lỗi khi cập nhật sinh viên", nil, student.errors.full_messages)
         end
       else
-        render_response("Sinh viên không tồn tại", student)
+        render_response("Sinh viên không tồn tại")
       end
     rescue ActiveRecord::InvalidForeignKey => e
       custom_message = "Không tồn tại tài khoản"
@@ -66,9 +70,27 @@ class Api::V1::StudentsController < ApplicationController
     student = Student.find_by(StudentCode: params[:id])
     if student
       student.destroy
-      render_response("Xóa sinh viên thành công", student)
+      render_response("Xóa sinh viên thành công")
     else 
-      render_response("Sinh viên không tồn tại", student)
+      render_response("Sinh viên không tồn tại")
+    end
+  end
+
+  def search
+    studentCode = params[:StudentCode]
+    studentName = params[:StudentName]
+    className = params[:ClassName]
+
+    puts studentCode, studentName, className
+    student = Student.find_by(
+      StudentCode: studentCode,
+      StudentName: studentName,
+      ClassName: className
+    )
+    if student
+      render_response("Tìm kiếm sinh viên", data: student)
+    else 
+      render_response("Sinh viên không tồn tại")
     end
   end
 
@@ -85,4 +107,5 @@ class Api::V1::StudentsController < ApplicationController
       :isVolunteerStudent
     ])
   end
+
 end

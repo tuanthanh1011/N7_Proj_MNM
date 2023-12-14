@@ -3,7 +3,6 @@ class ApplicationController < ActionController::API
 
   def render_response(message, options = {})
     status = options[:status] || :ok
-
     response_data = { message: message }
     response_data[:data] = options[:data] if options[:data].present?
     response_data[:errors] = options[:errors] if options[:errors].present?

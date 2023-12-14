@@ -4,17 +4,15 @@ class Api::V1::AuthController < ApplicationController
 
   # Tạo access token
   def generateAccessToken (payload)
-    hmac_secret_access = 'TuanThanh'
     expiration_time = 1.hour.from_now.to_i
-    access_token = JWT.encode payload, hmac_secret_access, 'HS256', exp: expiration_time
+    access_token = JWT.encode payload, ENV['JWT_ACCESS_TOKEN_SECRET'], 'HS256', exp: expiration_time
     return access_token
   end
 
   #Tạo refresh token
   def generateRefreshToken (payload)
-    hmac_secret_refresh = 'TuanThanhDayNe'
     expiration_time = 1.year.from_now.to_i
-    refresh_token = JWT.encode payload, hmac_secret_refresh, 'HS256', exp: expiration_time
+    refresh_token = JWT.encode payload, ENV['JWT_REFRESH_TOKEN_SECRET'], 'HS256', exp: expiration_time
     return refresh_token
   end
 
@@ -27,11 +25,15 @@ class Api::V1::AuthController < ApplicationController
     #Kiểm tra thông tin tài khoản
     account = Auth.find_by(Username: username, Password: password)
 
+    # Lấy thông tin student tương ứng account code
+    student = Student.find_by(AccountCode: account.AccountCode)
+
     if account
       # Dữ liệu tạo token
       payload = { 
         Username: account.Username,
         AccountCode: account.AccountCode,
+        StudentCode: student&.StudentCode,
         Role: account.Role
       }
 
@@ -46,7 +48,8 @@ class Api::V1::AuthController < ApplicationController
           expires: 1.year.from_now,
           secure: true,
           httpOnly: true,
-          same_site: :none
+          same_site: :none,
+          path: "/"
         }
       )
 
@@ -55,6 +58,7 @@ class Api::V1::AuthController < ApplicationController
         account: {
           Username: account.Username,
           AccountCode: account.AccountCode,
+          StudentCode: student&.StudentCode,
           Role: account.Role
         } 
       })
@@ -72,8 +76,6 @@ class Api::V1::AuthController < ApplicationController
 
   # Tạo token mới khi access token hết hạn
   def refresh
-    hmac_secret_refresh = 'TuanThanhDayNe'
-
     # Lấy token từ cookies trong header
     refresh_token_cookie = cookies[:refresh_token]
 
@@ -85,7 +87,7 @@ class Api::V1::AuthController < ApplicationController
   
     begin
       # Giải mã
-      decoded_token = JWT.decode refresh_token_cookie, hmac_secret_refresh, true, { algorithm: 'HS256' }
+      decoded_token = JWT.decode refresh_token_cookie, ENV['JWT_REFRESH_TOKEN_SECRET'], true, { algorithm: 'HS256' }
     
       # Lấy data
       account = decoded_token[0]
@@ -99,7 +101,8 @@ class Api::V1::AuthController < ApplicationController
           expires: 1.year.from_now,
           secure: true,
           httpOnly: true,
-          same_site: :none
+          same_site: :none,
+          path: "/"
         }
       )
       render_response("Tạo mới access token", data: { accessToken: newAccessToken })

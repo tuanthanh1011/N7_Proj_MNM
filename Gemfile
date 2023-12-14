@@ -15,6 +15,8 @@ gem 'jwt'
 
 gem 'rack-cors', require: 'rack/cors'
 
+gem 'dotenv-rails', groups: [:development, :test]
+
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
 

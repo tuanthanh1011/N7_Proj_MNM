@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  StudentCode: MyString
+  InterviewCode: 1
+
+two:
+  StudentCode: MyString
+  InterviewCode: 1

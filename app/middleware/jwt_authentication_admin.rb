@@ -1,12 +1,12 @@
 require 'jwt'
 require "./app/services/student_service.rb"
+require "./app/services/auth_service.rb"
 
-class JwtAuthenticationMiddleware
+class JwtAuthenticationMiddlewareAdmin
   def initialize(app)
     @app = app
     @ignored_paths = [
         '/api/v1/auth/login',
-        '/api/v1/students',
         '/api/v1/students/search',
         '/api/v1/interviews',
         '/api/v1/student_interview',
@@ -44,9 +44,8 @@ class JwtAuthenticationMiddleware
         # Lấy ra data trong token
         student_account = decoded_token
 
-        # Kiểm tra có tồn tại sinh viên theo mã trong token không
-        unless StudentService.findStudentById(student_account['StudentCode'])
-            # Xử lý token không hợp lệ
+        # Kiểm tra có tồn tại account admin
+        unless AuthService.findAccountById(student_account['AccountCode'])
           return unauthorized_response
         end
       else
