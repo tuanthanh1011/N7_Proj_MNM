@@ -26,8 +26,8 @@ class Api::V1::AuthController < ApplicationController
         :access_token, {
           value: access_token,
           expires: 1.hour.from_now,
-          httponly: true,
-          secure: false,
+          secure: true,
+          httpOnly: true,
           same_site: :none
         }
       )
@@ -35,9 +35,9 @@ class Api::V1::AuthController < ApplicationController
       response.set_cookie(
         :refresh_token, {
           value: refresh_token,
-          expires: 1.hour.from_now,
-          httponly: true,
-          secure: false,
+          expires: 1.year.from_now,
+          secure: true,
+          httpOnly: true,
           same_site: :none
         }
       )
@@ -64,15 +64,5 @@ class Api::V1::AuthController < ApplicationController
   def refresh
     access_token_cookie = cookies[:accessToken]
   end
-
-  def check_cookie
-    access_token_cookie = cookies[:accessToken]
-
-    if access_token_cookie.present?
-      render_response("Cookie đã được đặt", { accessToken: access_token_cookie })
-    else
-      render_response("Cookie không tồn tại")
-    end
-  end
-
+  
 end
