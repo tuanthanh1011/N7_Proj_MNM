@@ -7,8 +7,8 @@ class JwtAuthenticationMiddleware
     @ignored_paths = [
         '/api/v1/auth/login',
         '/api/v1/auth/refresh',
-        '/api/v1/students',
         '/api/v1/students/search',
+        '/api/v1/students',
         '/api/v1/interviews',
         '/api/v1/student_interview',
     ]
@@ -26,7 +26,7 @@ class JwtAuthenticationMiddleware
       # Lấy token từ header Authorization
       authorization_header = request.headers['Authorization']
 
-      puts "HIHI"
+      puts "HIHI2"
       # Kiểm tra xem có Authorization header không và định dạng là "Bearer <token>"
       if authorization_header.present? && authorization_header.start_with?('Bearer ')
         # Tách chuỗi bỏ ký tự Bearer

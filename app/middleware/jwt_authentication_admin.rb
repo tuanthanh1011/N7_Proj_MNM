@@ -26,7 +26,7 @@ class JwtAuthenticationMiddlewareAdmin
       # Lấy token từ header Authorization
       authorization_header = request.headers['Authorization']
 
-      puts "HIHI"
+      puts "HIHI1"
       # Kiểm tra xem có Authorization header không và định dạng là "Bearer <token>"
       if authorization_header.present? && authorization_header.start_with?('Bearer ')
         # Tách chuỗi bỏ ký tự Bearer
@@ -46,11 +46,13 @@ class JwtAuthenticationMiddlewareAdmin
         # Lấy ra data trong token
         student_account = decoded_token
 
+        puts student_account['accountCode']
         # Kiểm tra có tồn tại account admin
-        unless AuthService.findAccountById(student_account['AccountCode'])
+        unless AuthService.findAccountById(student_account['accountCode'])
           return unauthorized_response
         end
       else
+
         # Xử lý token không hợp lệ
         return unauthorized_response
       end
