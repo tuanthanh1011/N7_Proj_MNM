@@ -61,10 +61,12 @@ class Api::V1::AuthController < ApplicationController
           StudentCode: student&.StudentCode,
           Role: account.Role
         } 
-      })
+      }, 
+      status: 201
+      )
 
     else  
-      render_response("Tài khoản hoặc mật khẩu không chính xác")
+      render_response("Tài khoản hoặc mật khẩu không chính xác", status: 401)
     end
   end
 

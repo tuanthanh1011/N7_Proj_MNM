@@ -2,15 +2,15 @@
 class Api::V1::StudentsController < ApplicationController
   def index
     students = Student.all
-    render_response("Hiển thị danh sách sinh viên", data: students)
+    render_response("Hiển thị danh sách sinh viên", data: students, status: 200)
   end
 
   def show
     student = Student.find_by(StudentCode: params[:id])
     if student
-      render_response("Hiển thị sinh viên theo mã sinh viên", data: student)
+      render_response("Hiển thị sinh viên theo mã sinh viên", data: student, status: 200)
     else 
-      render_response("Không tìm thấy sinh viên")
+      render_response("Không tìm thấy sinh viên", status: 404)
     end
   end
 

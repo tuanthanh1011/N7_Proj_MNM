@@ -25,6 +25,7 @@ class JwtAuthenticationMiddleware
       # Lấy token từ header Authorization
       authorization_header = request.headers['Authorization']
 
+      puts "HIHI"
       # Kiểm tra xem có Authorization header không và định dạng là "Bearer <token>"
       if authorization_header.present? && authorization_header.start_with?('Bearer ')
         # Tách chuỗi bỏ ký tự Bearer

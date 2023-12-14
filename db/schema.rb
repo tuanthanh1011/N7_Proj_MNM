@@ -26,6 +26,9 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_14_142021) do
     t.string "InterviewRoom", limit: 50, null: false
     t.integer "Quantity", null: false
     t.integer "QuantityMax", null: false
+    t.date "CreatedAt"
+    t.date "UpdatedAt"
+    t.date "DeletedAt"
   end
 
   create_table "rating", primary_key: "RatingCode", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
@@ -59,6 +62,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_14_142021) do
   create_table "student_interview", id: false, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.string "StudentCode", limit: 50, null: false
     t.integer "InterviewCode", null: false
+    t.boolean "ResultInterview"
     t.date "CreatedAt"
     t.date "UpdatedAt"
     t.index ["InterviewCode"], name: "Student_Interview"
