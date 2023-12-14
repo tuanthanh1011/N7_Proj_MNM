@@ -11,6 +11,9 @@ module BackendMnm
    # Trong config/application.rb hoặc trong mô-đun cấu hình
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore
+    # config/application.rb
+    config.middleware.use JwtAuthenticationMiddleware
+
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.1
 
