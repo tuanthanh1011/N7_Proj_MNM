@@ -25,10 +25,10 @@ class Api::V1::AuthController < ApplicationController
     #Kiểm tra thông tin tài khoản
     account = Auth.find_by(Username: username, Password: password)
 
-    # Lấy thông tin student tương ứng account code
-    student = Student.find_by(AccountCode: account.AccountCode)
-
+    
     if account
+      # Lấy thông tin student tương ứng account code
+      student = Student.find_by(AccountCode: account.AccountCode)
       # Dữ liệu tạo token
       payload = { 
         Username: account.Username,
