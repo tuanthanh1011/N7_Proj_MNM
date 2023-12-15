@@ -86,9 +86,10 @@ class Api::V1::StudentsController < ApplicationController
       StudentCode: studentCode,
       StudentName: studentName,
       ClassName: className
-    )
+    ).to_a
     if student
-      render_response("Tìm kiếm sinh viên", data: student, status: 200)
+      result = CamelCaseConvert.convert_to_camel_case(student)
+      render_response("Tìm kiếm sinh viên", data: result, status: 200)
     else 
       render_response("Sinh viên không tồn tại", status: 404)
     end

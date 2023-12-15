@@ -2,13 +2,13 @@ require_relative "boot"
 require "rails/all"
 require "./app/middleware/jwt_authentication_middleware.rb"
 require "./app/middleware/jwt_authentication_admin.rb"
-require "./lib/camel_case_convert.rb"
 
 Bundler.require(*Rails.groups)
 
 module BackendMnm
   class Application < Rails::Application
     
+    config.autoload_paths += ["#{config.root}/lib"]
    # Trong config/application.rb hoặc trong mô-đun cấu hình
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore
