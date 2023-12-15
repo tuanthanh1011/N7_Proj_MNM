@@ -82,16 +82,15 @@ class Api::V1::StudentsController < ApplicationController
     studentName = params[:StudentName]
     className = params[:ClassName]
 
-    puts studentCode, studentName, className
     student = Student.find_by(
       StudentCode: studentCode,
       StudentName: studentName,
       ClassName: className
     )
     if student
-      render_response("Tìm kiếm sinh viên", data: student)
+      render_response("Tìm kiếm sinh viên", data: student, status: 200)
     else 
-      render_response("Sinh viên không tồn tại")
+      render_response("Sinh viên không tồn tại", status: 404)
     end
   end
 

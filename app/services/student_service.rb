@@ -9,13 +9,13 @@ class StudentService
         end
       end
 
-    def self.findStudentById (studentCode)
-      student = Student.find_by(StudentCode: studentCode)
+    def self.isVolunteer (studentCode)
+      student = Student.find_by(StudentCode: studentCode, isVolunteerStudent: true)
       if student 
         return true
       else
         return false
       end
-    end      
-    
+    end 
+
   end
