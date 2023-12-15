@@ -6,6 +6,7 @@ class JwtAuthenticationMiddleware
     @app = app
     @ignored_paths = [
         '/api/v1/auth/login',
+        '/api/v1/auth/logout',
         '/api/v1/auth/refresh',
         '/api/v1/students/search',
         '/api/v1/students',

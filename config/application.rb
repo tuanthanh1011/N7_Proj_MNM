@@ -2,9 +2,8 @@ require_relative "boot"
 require "rails/all"
 require "./app/middleware/jwt_authentication_middleware.rb"
 require "./app/middleware/jwt_authentication_admin.rb"
+require "./lib/camel_case_convert.rb"
 
-# Require the gems listed in Gemfile, including any gems
-# you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
 module BackendMnm

@@ -74,7 +74,7 @@ class Api::V1::AuthController < ApplicationController
 
   #Đăng xuất
   def logout
-    response.delete_cookie(:refresh_token)
+    response.delete_cookie(:refresh_token, path: "/")
     render_response("Đăng xuất thành công")
   end
 
