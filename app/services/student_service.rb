@@ -1,7 +1,7 @@
 # services/student_service.rb
 class StudentService
-    def self.findStudentById (studentCode)
-        student = Student.find_by(StudentCode: studentCode)
+    def self.findStudentByAccout (accountCode)
+        student = Student.find_by(AccountCode: accountCode)
         if student 
           return true
         else

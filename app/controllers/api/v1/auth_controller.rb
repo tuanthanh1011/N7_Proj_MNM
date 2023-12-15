@@ -64,7 +64,7 @@ class Api::V1::AuthController < ApplicationController
           role: account.Role
         } 
       }, 
-      status: 201
+      status: 200
       )
 
     else  
@@ -85,7 +85,7 @@ class Api::V1::AuthController < ApplicationController
 
     # Kiểm tra sự tồn tại của refresh token
     unless refresh_token_cookie
-      render_response("Bạn không có quyền truy cập trang này", status: :unauthorized)
+      render_response("Bạn không có quyền truy cập trang này", status: 401)
       return
     end
   

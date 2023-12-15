@@ -35,7 +35,7 @@ class Api::V1::StudentsController < ApplicationController
       end
     rescue ActiveRecord::InvalidForeignKey => e
       custom_message = "Không tồn tại tài khoản"
-      render_response(custom_message)
+      render_response(custom_message, status: 400)
     end
     
   end
@@ -78,15 +78,15 @@ class Api::V1::StudentsController < ApplicationController
   end
 
   def search
-    studentCode = params[:StudentCode]
-    studentName = params[:StudentName]
-    className = params[:ClassName]
+    studentCode = params[:studentCode]
+    studentName = params[:studentName]
+    className = params[:className]
 
     student = Student.find_by(
       StudentCode: studentCode,
       StudentName: studentName,
       ClassName: className
-    ).to_a
+    )
     if student
       result = CamelCaseConvert.convert_to_camel_case(student)
       render_response("Tìm kiếm sinh viên", data: result, status: 200)

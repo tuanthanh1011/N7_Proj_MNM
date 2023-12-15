@@ -13,9 +13,8 @@ module BackendMnm
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore
 
-    # config middleware authen author
-    config.middleware.use JwtAuthenticationMiddleware
-    config.middleware.use JwtAuthenticationMiddlewareAdmin
+  # Set các api không check quyền
+  config.middleware.use JwtAuthenticationMiddleware
 
     config.load_defaults 7.1
 

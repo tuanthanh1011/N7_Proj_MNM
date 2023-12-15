@@ -3,8 +3,8 @@ require "./app/services/student_interview_service.rb"
 
 class Api::V1::StudentInterviewController < ApplicationController
   def create
-    student_code = params[:StudentCode]
-    interview_code = params[:InterviewCode]
+    student_code = params[:studentCode]
+    interview_code = params[:interviewCode]
 
     if StudentService.isVolunteer(student_code)
       render_response("Bạn đã là sinh viên tình nguyện", status: 400)
