@@ -8,6 +8,10 @@ class JwtAuthenticationMiddleware
       { path: %r{/api/v1/students/.+}, methods: [:get] },
       { path: '/api/v1/student_interview', methods: [:post] },
       { path: '/api/v1/student_interview', methods: [:get] },
+      
+      # Routes admin
+      { path: '/api/v1/admin/interview', methods: [:get] },
+      { path: '/api/v1/admin/student_interview', methods: [:patch] },
     ]
   end
 
