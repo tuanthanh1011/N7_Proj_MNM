@@ -24,12 +24,15 @@ Rails.application.routes.draw do
 
       namespace :admin do
         resources :student_interview, only: [] do
-          patch '', on: :collection, to: 'student_interview_admin#update'
+          patch ':id', on: :collection, to: 'student_interview_admin#update'
           get '', on: :collection, to: 'student_interview_admin#index'
         end
 
         resources :interviews, only: [] do
           get '', on: :collection, to: 'interview_admin#index_admin'
+          patch ':id', on: :collection, to: 'interview_admin#update'
+          post '', on: :collection, to: 'interview_admin#create'
+          delete ':id', on: :collection, to: 'interview_admin#destroy'
         end
 
         resources :students, only: [] do

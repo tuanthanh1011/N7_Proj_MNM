@@ -10,7 +10,7 @@ class Api::V1::Admin::StudentInterviewAdminController < ApplicationController
 
   def update
     # Lấy dữ liệu gửi trong body
-    studentCode = params[:studentCode]
+    studentCode = params[:id]
     resultInterview = params[:resultInterview]
 
     # Tìm sinh viên với mã SV tương ứng
