@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
+
       resources :students, only: [:index, :show, :create, :update, :destroy] do
         collection do
           post 'search' => 'students#search'
@@ -24,10 +25,16 @@ Rails.application.routes.draw do
       namespace :admin do
         resources :student_interview, only: [] do
           patch '', on: :collection, to: 'student_interview_admin#update'
+          get '', on: :collection, to: 'student_interview_admin#index'
         end
 
         resources :interviews, only: [] do
           get '', on: :collection, to: 'interview_admin#index_admin'
+        end
+
+        resources :students, only: [] do
+            get '', on: :collection, to: 'student_admin#index'
+            get 'volunteer', on: :collection, to: 'student_admin#show_volunteer'
         end
 
       end

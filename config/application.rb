@@ -15,6 +15,7 @@ module BackendMnm
 
   # Set các api không check quyền
   config.middleware.use JwtAuthenticationMiddleware
+  config.middleware.use JwtAuthenticationMiddlewareAdmin
 
     config.load_defaults 7.1
 

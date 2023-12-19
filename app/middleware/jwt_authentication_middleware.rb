@@ -1,17 +1,18 @@
-class JwtAuthenticationMiddleware
+  class JwtAuthenticationMiddleware
   def initialize(app)
     @app = app
     @ignored_endpoints = [
       { path: '/api/v1/auth/login', methods: [:post] },
       { path: '/api/v1/students/search', methods: [:post] },
+      { path: '/api/v1/admin/students', methods: [:get] },
+      { path: '/api/v1/admin/students/volunteer', methods: [:get] },
       { path: '/api/v1/interviews', methods: [:get] },
       { path: %r{/api/v1/students/.+}, methods: [:get] },
       { path: '/api/v1/student_interview', methods: [:post] },
       { path: '/api/v1/student_interview', methods: [:get] },
-      
-      # Routes admin
-      { path: '/api/v1/admin/interview', methods: [:get] },
+      { path: '/api/v1/admin/interviews', methods: [:get] },
       { path: '/api/v1/admin/student_interview', methods: [:patch] },
+      { path: '/api/v1/admin/student_interview', methods: [:get] },
     ]
   end
 

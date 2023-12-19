@@ -1,8 +1,9 @@
 
 class Api::V1::StudentsController < ApplicationController
   def index
-    students = Student.all
-    render_response("Hiển thị danh sách sinh viên", data: students, status: 200)
+    students = Student.all.to_a
+    result = CamelCaseConvert.convert_to_camel_case(students)
+    render_response("Hiển thị danh sách sinh viên", data: result, status: 200)
   end
 
   def show

@@ -5,14 +5,13 @@ require "./app/services/auth_service.rb"
 class JwtAuthenticationMiddlewareAdmin
   def initialize(app, options = {})
     @app = app
-    @ignored_paths = [
+    @ignored_endpoints = [
       { path: '/api/v1/auth/login', methods: [:post] },
       { path: '/api/v1/students/search', methods: [:post] },
       { path: '/api/v1/student_interview', methods: [:post] },
       { path: '/api/v1/interviews', methods: [:get] },
       { path: %r{/api/v1/students/.+}, methods: [:get] },
       { path: '/api/v1/auth/logout', methods: [:post] },
-
     ]
   end
 
@@ -47,7 +46,6 @@ class JwtAuthenticationMiddlewareAdmin
         # Lấy ra data trong token
         student_account = decoded_token
 
-        puts student_account['accountCode']
         # Kiểm tra có tồn tại account admin
         unless AuthService.findAccountById(student_account['accountCode'])
           return unauthorized_response
@@ -69,7 +67,13 @@ class JwtAuthenticationMiddlewareAdmin
 
   # Hàm kiểm tra xem đường dẫn có nằm trong danh sách bỏ qua không
   def ignored_endpoint?(path, method)
-    @ignored_endpoints.any? { |endpoint| endpoint[:path] == path && endpoint[:methods].include?(method.to_s.downcase.to_sym) }
+    @ignored_endpoints.any? do |endpoint|
+      path_matches?(endpoint[:path], path) && endpoint[:methods].include?(method.to_s.downcase.to_sym)
+    end
+  end
+
+  def path_matches?(pattern, path)
+    Regexp.new("^#{pattern}$").match?(path)
   end
 
   # Hàm xử lý response khi token không hợp lệ
