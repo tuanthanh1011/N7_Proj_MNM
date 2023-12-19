@@ -70,7 +70,7 @@ class InterviewService
       else
         raise ActiveRecord::RecordNotFound.new("Không tìm thấy thông tin phòng phỏng vấn")
       end
-      
+
     rescue ActiveRecord::RecordNotFound => e
       return { success: false, message: e.message, status: 404 }
     rescue StandardError => e
@@ -78,6 +78,7 @@ class InterviewService
     end
   end
 
+  # Hàm tạo
   def self.createInterview(payload)
     begin
       interview = Interview.new(payload)

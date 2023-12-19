@@ -22,25 +22,23 @@ Rails.application.routes.draw do
         post '', on: :collection, to: 'student_interview#create'
       end
 
-      namespace :admin do
-        resources :student_interview, only: [] do
-          patch ':id', on: :collection, to: 'student_interview_admin#update'
-          get '', on: :collection, to: 'student_interview_admin#index'
-        end
-
-        resources :interviews, only: [] do
-          get '', on: :collection, to: 'interview_admin#index_admin'
-          patch ':id', on: :collection, to: 'interview_admin#update'
-          post '', on: :collection, to: 'interview_admin#create'
-          delete ':id', on: :collection, to: 'interview_admin#destroy'
-        end
-
-        resources :students, only: [] do
-            get '', on: :collection, to: 'student_admin#index'
-            get 'volunteer', on: :collection, to: 'student_admin#show_volunteer'
-        end
-
+      resources :student_interview, only: [] do
+        patch 'admin/:id', on: :collection, to: 'student_interview_admin#update'
+        get 'admin', on: :collection, to: 'student_interview_admin#index'
       end
+
+      resources :interviews, only: [] do
+        get 'admin', on: :collection, to: 'interview_admin#index_admin'
+        patch 'admin/:id', on: :collection, to: 'interview_admin#update'
+        post 'admin', on: :collection, to: 'interview_admin#create'
+        delete 'admin/:id', on: :collection, to: 'interview_admin#destroy'
+      end
+
+      resources :students, only: [] do
+        get 'admin', on: :collection, to: 'student_admin#index'
+        get 'admin/volunteer', on: :collection, to: 'student_admin#show_volunteer'
+      end
+
     end
   end
 

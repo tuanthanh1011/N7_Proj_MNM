@@ -1,6 +1,6 @@
 require "./app/services/interview_service.rb"
 
-class Api::V1::Admin::InterviewAdminController < ApplicationController
+class Api::V1::InterviewAdminController < ApplicationController
 
   # Thực hiện lấy ra tất cả bản ghi trong bảng interview
   def index_admin
