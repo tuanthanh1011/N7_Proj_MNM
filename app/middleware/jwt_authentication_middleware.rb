@@ -48,7 +48,7 @@
         student_account = decoded_token
 
         # Kiểm tra có tồn tại sinh viên theo mã trong token không
-        unless StudentService.findStudentByAccout(student_account['AccountCode'])
+        unless StudentService.findStudentByAccount(student_account['AccountCode'])
           # Xử lý token không hợp lệ
           return unauthorized_response
         end
