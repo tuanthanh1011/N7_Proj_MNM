@@ -6,7 +6,7 @@
       { path: '/api/v1/auth/refresh', methods: [:post] },
       { path: '/api/v1/students/search', methods: [:post] },
       { path: '/api/v1/students/admin', methods: [:get] },
-      { path: '/api/v1/volunteer/admin', methods: [:get] },
+      { path: '/api/v1/volunteers/admin', methods: [:get] },
       { path: '/api/v1/interviews', methods: [:get] },
       { path: %r{/api/v1/students/.+}, methods: [:get] },
       { path: %r{/api/v1/students/(?:(?!admin).)+}, methods: [:get] },
