@@ -3,9 +3,10 @@
     @app = app
     @ignored_endpoints = [
       { path: '/api/v1/auth/login', methods: [:post] },
+      { path: '/api/v1/auth/refresh', methods: [:post] },
       { path: '/api/v1/students/search', methods: [:post] },
       { path: '/api/v1/students/admin', methods: [:get] },
-      { path: '/api/v1/students/volunteer/admin', methods: [:get] },
+      { path: '/api/v1/volunteer/admin', methods: [:get] },
       { path: '/api/v1/interviews', methods: [:get] },
       { path: %r{/api/v1/students/.+}, methods: [:get] },
       { path: %r{/api/v1/students/(?:(?!admin).)+}, methods: [:get] },
@@ -13,7 +14,7 @@
       { path: '/api/v1/student_interview', methods: [:get] },
       { path: '/api/v1/interviews/admin', methods: [:get] },
       { path: '/api/v1/student_interview/admin', methods: [:patch] },
-      { path: '/api/v1/student_interview', methods: [:get] },
+      { path: '/api/v1/student_interview/admin', methods: [:get] },
     ]
   end
 

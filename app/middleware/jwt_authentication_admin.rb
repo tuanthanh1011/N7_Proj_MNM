@@ -7,6 +7,7 @@ class JwtAuthenticationMiddlewareAdmin
     @app = app
     @ignored_endpoints = [
       { path: '/api/v1/auth/login', methods: [:post] },
+      { path: '/api/v1/auth/refresh', methods: [:post] },
       { path: '/api/v1/students/search', methods: [:post] },
       { path: '/api/v1/student_interview', methods: [:post] },
       { path: '/api/v1/interviews', methods: [:get] },

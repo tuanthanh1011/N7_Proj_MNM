@@ -28,13 +28,13 @@ Rails.application.routes.draw do
       end
 
       resources :student_interview, only: [] do
-        patch ':id/admin', on: :collection, to: 'student_interview_admin#update'
+        patch 'admin/:id', on: :collection, to: 'student_interview_admin#update'
         get 'admin', on: :collection, to: 'student_interview_admin#index'
       end
 
       resources :interviews, only: [] do
         get 'admin', on: :collection, to: 'interview_admin#index_admin'
-        patch ':id/admin', on: :collection, to: 'interview_admin#update'
+        patch 'admin/:id', on: :collection, to: 'interview_admin#update'
         post 'admin', on: :collection, to: 'interview_admin#create'
         delete 'admin/:id', on: :collection, to: 'interview_admin#destroy'
       end

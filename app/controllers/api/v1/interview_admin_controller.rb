@@ -43,7 +43,7 @@ class Api::V1::InterviewAdminController < ApplicationController
     result = InterviewService.updateInterview(interviewCode, convert_params_to_uppercase(update_params))
   
     unless result[:success]
-      render_response(result[:message], status: result[:status])
+      render_response(result[:message], status: result[:status], errors: result[:errors])
       return
     end
   

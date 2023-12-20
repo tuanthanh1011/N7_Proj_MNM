@@ -65,7 +65,7 @@ class InterviewService
           interview.save
           return { success: true, message: "Cập nhật phỏng vấn thành công" }
         else
-          raise StandardError.new("Lỗi khi cập nhật phỏng vấn")
+          return { success: false, message: "Có lỗi khi cập nhật phỏng vấn", errors: interview.errors.full_messages, status: :unprocessable_entity }
         end
       else
         raise ActiveRecord::RecordNotFound.new("Không tìm thấy thông tin phòng phỏng vấn")
