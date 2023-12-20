@@ -50,9 +50,10 @@ class Api::V1::InterviewAdminController < ApplicationController
       end
     end
 
-    # Kiểm tra định dạng ngày xóa phỏng vấn
-    if params[:deletedAt]
+    # Kiểm tra định dạng ngày xóa phỏng vấn (Chấp nhận giá trị null -> Bỏ xóa mềm)
+    if params[:deletedAt].present? && params[:deletedAt] != 'null'
       deletedAt = params[:deletedAt]
+    
       unless valid_date_format?(deletedAt)
         isValidDeletedAt = true
       end
