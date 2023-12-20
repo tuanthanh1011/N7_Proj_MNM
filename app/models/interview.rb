@@ -15,4 +15,5 @@ class Interview < ApplicationRecord
      
       end
     end
-d
+
+end
