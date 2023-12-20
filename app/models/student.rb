@@ -1,5 +1,6 @@
 class Student < ApplicationRecord
     self.table_name = 'student'
+    has_one :student_interview, foreign_key: 'StudentCode', primary_key: 'StudentCode'
   
   validates :StudentCode, :StudentName, :ClassName, :PhoneNumber, :Email, presence: { message: "không được để trống" }
   validates :StudentCode, uniqueness: { message: "đã tồn tại trong hệ thống" }

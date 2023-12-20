@@ -3,8 +3,20 @@ require "./app/services/volunteer_account_service.rb"
 
 class Api::V1::StudentInterviewAdminController < ApplicationController
   def index
-    student_interview = StudentInterview.where(ResultInterview: nil).all.to_a
-    result = CamelCaseConvert.convert_to_camel_case(student_interview)
+    student_interview = StudentInterview.joins(:student)
+                                        .select('student_interview.*, student.studentCode, student.studentName, student.className')
+                                        .where(ResultInterview: nil).all
+
+    # Phân trang, lọc, sắp xếp dữ liệu
+    dataAfter = PaginationSortSearch.dataExploration(student_interview, params, "StudentName")
+
+    unless dataAfter[:success]
+      render_response(dataAfter[:message], status: dataAfter[:status])
+      return
+    end
+
+    #Chuyển key dữ liệu thành dạng camel case
+    result = CamelCaseConvert.convert_to_camel_case(dataAfter[:data].to_a)
     render_response("Hiển thị danh sách sinh viên tham gia phỏng vấn", data: result, status: 200)
   end
 

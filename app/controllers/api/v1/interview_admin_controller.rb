@@ -4,8 +4,18 @@ class Api::V1::InterviewAdminController < ApplicationController
 
   # Thực hiện lấy ra tất cả bản ghi trong bảng interview
   def index_admin
-    interviews = Interview.all.to_a
-    result = CamelCaseConvert.convert_to_camel_case(interviews)
+    interviews = Interview.all
+    # Phân trang, lọc, sắp xếp dữ liệu
+    dataAfter = PaginationSortSearch.dataExploration(interviews, params, "InterviewCode")
+
+    unless dataAfter[:success]
+      render_response(dataAfter[:message], status: dataAfter[:status])
+      return
+    end
+
+    # Chuyển đổi kết quả thành camel case
+    result = CamelCaseConvert.convert_to_camel_case(dataAfter[:data].to_a)
+
     render_response("Hiển thị danh sách lịch phỏng vấn", data: result, status: 200)
   end
 

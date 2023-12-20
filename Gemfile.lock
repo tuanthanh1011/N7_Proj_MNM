@@ -93,9 +93,27 @@ GEM
       railties (>= 3.2)
     drb (2.2.0)
       ruby2_keywords
+    elasticsearch (7.17.10)
+      elasticsearch-api (= 7.17.10)
+      elasticsearch-transport (= 7.17.10)
+    elasticsearch-api (7.17.10)
+      multi_json
+    elasticsearch-model (7.2.1)
+      activesupport (> 3)
+      elasticsearch (~> 7)
+      hashie
+    elasticsearch-transport (7.17.10)
+      faraday (>= 1, < 3)
+      multi_json
     erubi (1.12.0)
+    faraday (2.7.12)
+      base64
+      faraday-net_http (>= 2.0, < 3.1)
+      ruby2_keywords (>= 0.0.4)
+    faraday-net_http (3.0.2)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    hashie (5.0.0)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     io-console (0.6.0)
@@ -103,6 +121,18 @@ GEM
       rdoc
       reline (>= 0.3.8)
     jwt (2.7.1)
+    kaminari (1.2.2)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.2)
+      kaminari-activerecord (= 1.2.2)
+      kaminari-core (= 1.2.2)
+    kaminari-actionview (1.2.2)
+      actionview
+      kaminari-core (= 1.2.2)
+    kaminari-activerecord (1.2.2)
+      activerecord
+      kaminari-core (= 1.2.2)
+    kaminari-core (1.2.2)
     loofah (2.22.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -115,6 +145,7 @@ GEM
     mini_mime (1.1.5)
     minitest (5.20.0)
     msgpack (1.7.2)
+    multi_json (1.15.0)
     mutex_m (0.2.0)
     mysql2 (0.5.5)
     net-imap (0.4.8)
@@ -131,6 +162,9 @@ GEM
       racc (~> 1.4)
     nokogiri (1.15.5-x86_64-linux)
       racc (~> 1.4)
+    opensearch-ruby (3.1.0)
+      faraday (>= 1.0, < 3)
+      multi_json (>= 1.0)
     psych (5.1.1.1)
       stringio
     puma (6.4.0)
@@ -167,6 +201,9 @@ GEM
     rails-html-sanitizer (1.6.0)
       loofah (~> 2.21)
       nokogiri (~> 1.14)
+    rails-i18n (7.0.8)
+      i18n (>= 0.7, < 2)
+      railties (>= 6.0.0, < 8)
     railties (7.1.2)
       actionpack (= 7.1.2)
       activesupport (= 7.1.2)
@@ -181,13 +218,20 @@ GEM
     reline (0.4.1)
       io-console (~> 0.5)
     ruby2_keywords (0.0.5)
+    searchkick (5.3.1)
+      activemodel (>= 6.1)
+      hashie
     stringio (3.1.0)
     thor (1.3.0)
+    timeliness (0.4.5)
     timeout (0.4.1)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     tzinfo-data (1.2023.3)
       tzinfo (>= 1.0.0)
+    validates_timeliness (7.0.0.beta2)
+      activemodel (>= 7.0.0, < 8)
+      timeliness (>= 0.3.10, < 1)
     webrick (1.8.1)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
@@ -202,12 +246,18 @@ DEPENDENCIES
   bootsnap
   debug
   dotenv-rails
+  elasticsearch-model
   jwt
+  kaminari (~> 1.2, >= 1.2.2)
   mysql2 (~> 0.5)
+  opensearch-ruby
   puma (>= 5.0)
   rack-cors
   rails (~> 7.1.2)
+  rails-i18n
+  searchkick (~> 5.3, >= 5.3.1)
   tzinfo-data
+  validates_timeliness (~> 7.0.0.beta1)
 
 RUBY VERSION
    ruby 3.2.2p53

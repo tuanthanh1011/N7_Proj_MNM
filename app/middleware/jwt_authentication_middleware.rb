@@ -8,7 +8,7 @@
       { path: '/api/v1/students/volunteer/admin', methods: [:get] },
       { path: '/api/v1/interviews', methods: [:get] },
       { path: %r{/api/v1/students/.+}, methods: [:get] },
-      { path: %r{/api/v1/interviews/.+}, methods: [:patch] },
+      { path: %r{/api/v1/students/(?:(?!admin).)+}, methods: [:get] },
       { path: '/api/v1/student_interview', methods: [:post] },
       { path: '/api/v1/student_interview', methods: [:get] },
       { path: '/api/v1/interviews/admin', methods: [:get] },

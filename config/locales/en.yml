@@ -29,3 +29,8 @@
 
 en:
   hello: "Hello world"
+
+vi:
+  errors:
+    messages:
+      invalid_date: "Ngày không hợp lệ"

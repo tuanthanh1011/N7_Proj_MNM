@@ -7,6 +7,7 @@ class Api::V1::StudentsController < ApplicationController
   end
 
   def show
+    puts 1
     student = Student.find_by(StudentCode: params[:id])
     if student
       render_response("Hiển thị sinh viên theo mã sinh viên", data: student, status: 200)

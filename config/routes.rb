@@ -2,10 +2,15 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
 
-      resources :students, only: [:index, :show, :create, :update, :destroy] do
-        collection do
-          post 'search' => 'students#search'
-        end
+      resources :students, only: [] do
+        post 'search', on: :collection, to: 'students#search'
+        get 'admin', on: :collection, to: 'student_admin#index'
+        get ':id', on: :collection, to: 'students#show'
+        get 'volunteer', on: :collection, to: 'student_admin#show_volunteer'
+      end
+
+      resources :volunteers, only: [] do
+        get 'admin', on: :collection, to: 'student_admin#show_volunteer'
       end
 
       resources :auth, only: [] do
@@ -23,21 +28,21 @@ Rails.application.routes.draw do
       end
 
       resources :student_interview, only: [] do
-        patch 'admin/:id', on: :collection, to: 'student_interview_admin#update'
+        patch ':id/admin', on: :collection, to: 'student_interview_admin#update'
         get 'admin', on: :collection, to: 'student_interview_admin#index'
       end
 
       resources :interviews, only: [] do
         get 'admin', on: :collection, to: 'interview_admin#index_admin'
-        patch 'admin/:id', on: :collection, to: 'interview_admin#update'
+        patch ':id/admin', on: :collection, to: 'interview_admin#update'
         post 'admin', on: :collection, to: 'interview_admin#create'
         delete 'admin/:id', on: :collection, to: 'interview_admin#destroy'
       end
 
-      resources :students, only: [] do
-        get 'admin', on: :collection, to: 'student_admin#index'
-        get 'admin/volunteer', on: :collection, to: 'student_admin#show_volunteer'
-      end
+      # resources :students, only: [] do
+      #   get 'admin', on: :collection, to: 'student_admin#index'
+      #   get 'admin/volunteer', on: :collection, to: 'student_admin#show_volunteer'
+      # end
 
     end
   end
