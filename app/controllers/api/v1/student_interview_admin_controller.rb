@@ -25,6 +25,12 @@ class Api::V1::StudentInterviewAdminController < ApplicationController
     studentCode = params[:id]
     resultInterview = params[:resultInterview]
 
+    # Xử lý đầu vào chỉ bao gồm true hoặc false
+    unless [true, false].include?(resultInterview)
+      render_response("Giá trị đầu vào không hợp lệ", status: 400)
+      return
+    end
+
     # Tìm sinh viên với mã SV tương ứng
     updated_interview = StudentInterview.find_by(StudentCode: studentCode, ResultInterview: nil)
 
