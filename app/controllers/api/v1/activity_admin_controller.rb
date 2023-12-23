@@ -2,39 +2,44 @@ class Api::V1::ActivityAdminController < ApplicationController
     # Thực hiện lấy ra tất cả bản ghi trong bảng activity
   def index
     # Gọi hàm lấy tất cả hoạt động (truyền params: lọc, sắp xếp, phân trang)
-    activities = ActivityAdminService.getAllActivities (params)
+    result = ActivityAdminService.getAllActivities (params)
     
     # Xử lý lỗi
-    unless activities[:success]
-      render_response(activities[:message], status: activities[:status])
+    unless result[:success]
+      render_response(result[:message], status: result[:status])
       return
     end
 
-    render_response("Hiển thị danh sách hoạt động", data: activities[:data], status: activities[:status])
+    render_response(result[:message], data: result[:data], status: result[:status])
   end
 
   # Xem hoạt động (by id)
   def show
     activityCode = params[:id]
 
-    activity = Activity.find_by(ActivityCode: params[:id])
+    result = ActivityAdminService.getActivityById(activityCode)
 
-    if activity
-      render_response("Hiển thị hoạt động theo mã hoạt động", data: activity, status: 200)
-    else 
-      render_response("Không tìm thấy hoạt động", status: 404)
-    end 
+    # Xử lý lỗi
+    unless result[:success]
+      render_response(result[:message], status: result[:status])
+      return
+    end
+
+    render_response(result[:message], data: result[:data], status: result[:status])
   end
 
   # Xóa mềm một bản ghi activity (by id)
   def destroy
-    activity = Activity.find_by(ActivityCode: params[:id])
-    if activity
-        activity.destroy
-      render_response("Xóa hoạt động thành công", status: 200)
-    else 
-      render_response("Hoạt động không tồn tại", status: 404)
+    activityCode = params[:id]
+
+    result = ActivityAdminService.deleteActivity(activityCode)
+
+    unless result[:success]
+      render_response(result[:message], status: result[:status])
+      return
     end
+
+    render_response(result[:message], status: result[:status])
   end
 
   # Hàm cập nhật activity (activity by id)
