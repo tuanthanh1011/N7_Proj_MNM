@@ -11,7 +11,6 @@ class Interview < ApplicationRecord
         interview.errors.add(:base, "Số lượng ban đầu phải lớn hơn hoặc bằng 0!") unless interview.Quantity.to_i >= 0
         interview.errors.add(:base, "Số lượng phải lớn hơn 0!") unless interview.QuantityMax.to_i > 0
         interview.errors.add(:base, "Ngày phỏng vấn không đúng định dạng!") unless valid_date_format?(self.InterviewDate_before_type_cast)
-   
     end
   end
 

@@ -1,29 +1,29 @@
 class Api::V1::ActivityAdminController < ApplicationController
     # Thực hiện lấy ra tất cả bản ghi trong bảng activity
   def index
-    activities = Activity.all
-    # Phân trang, lọc, sắp xếp dữ liệu
-    dataAfter = PaginationSortSearch.dataExploration(activities, params, "ActivityName")
-
-    unless dataAfter[:success]
-      render_response(dataAfter[:message], status: dataAfter[:status])
+    # Gọi hàm lấy tất cả hoạt động (truyền params: lọc, sắp xếp, phân trang)
+    activities = ActivityAdminService.getAllActivities (params)
+    
+    # Xử lý lỗi
+    unless activities[:success]
+      render_response(activities[:message], status: activities[:status])
       return
     end
 
-    # Chuyển đổi kết quả thành camel case
-    result = CamelCaseConvert.convert_to_camel_case(dataAfter[:data].to_a)
-
-    render_response("Hiển thị danh sách hoạt động", data: result, status: 200)
+    render_response("Hiển thị danh sách hoạt động", data: activities[:data], status: activities[:status])
   end
 
   # Xem hoạt động (by id)
   def show
+    activityCode = params[:id]
+
     activity = Activity.find_by(ActivityCode: params[:id])
+
     if activity
       render_response("Hiển thị hoạt động theo mã hoạt động", data: activity, status: 200)
     else 
       render_response("Không tìm thấy hoạt động", status: 404)
-    end
+    end 
   end
 
   # Xóa mềm một bản ghi activity (by id)
