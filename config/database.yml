@@ -3,9 +3,9 @@ default: &default
   encoding: utf8mb4
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: admin
-  password: kXO6RF3r
-  host: mysql-157616-0.cloudclusters.net
-  port: 18415
+  password: YBdCAc0O
+  host: mysql-158770-0.cloudclusters.net
+  port: 19943
 
 development:
   <<: *default

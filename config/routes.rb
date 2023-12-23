@@ -6,11 +6,11 @@ Rails.application.routes.draw do
         post 'search', on: :collection, to: 'students#search'
         get 'admin', on: :collection, to: 'student_admin#index'
         get ':id', on: :collection, to: 'students#show'
-        get 'volunteer', on: :collection, to: 'student_admin#show_volunteer'
       end
 
       resources :volunteers, only: [] do
         get 'admin', on: :collection, to: 'student_admin#show_volunteer'
+        delete 'admin/:id', on: :collection, to: 'student_admin#delete_student_volunteer'
       end
 
       resources :auth, only: [] do
@@ -39,10 +39,13 @@ Rails.application.routes.draw do
         delete 'admin/:id', on: :collection, to: 'interview_admin#destroy'
       end
 
-      # resources :students, only: [] do
-      #   get 'admin', on: :collection, to: 'student_admin#index'
-      #   get 'admin/volunteer', on: :collection, to: 'student_admin#show_volunteer'
-      # end
+      resources :activities, only: [] do
+        get 'admin', on: :collection, to: 'activity_admin#index'
+        patch 'admin/:id', on: :collection, to: 'activity_admin#update'
+        get 'admin/:id', on: :collection, to: 'activity_admin#show'
+        post 'admin', on: :collection, to: 'activity_admin#create'
+        delete 'admin/:id', on: :collection, to: 'activity_admin#destroy'
+      end
 
     end
   end

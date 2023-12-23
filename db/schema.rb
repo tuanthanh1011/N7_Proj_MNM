@@ -10,21 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_14_142021) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_23_110647) do
+  create_table "activities", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "ActivityCode"
+    t.string "ActivityName"
+    t.date "BeginingDate"
+    t.string "Manager"
+    t.float "SupportMoney"
+    t.text "Description"
+    t.date "CreatedAt"
+    t.date "UpdatedAt"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "activity", primary_key: "ActivityCode", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.string "ActivityName", null: false
     t.date "BeginingDate", null: false
     t.string "Manager", null: false
     t.float "SupportMoney", limit: 53, null: false
     t.text "Description", null: false
-    t.date "CreatedAt", null: false
-    t.date "UpdatedAt", null: false
+    t.date "CreatedAt"
+    t.date "UpdatedAt"
   end
 
   create_table "interview", primary_key: "InterviewCode", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.date "InterviewDate", null: false
-    t.string "InterviewRoom", limit: 50, null: false
-    t.integer "Quantity", null: false
+    t.string "InterviewRoom", null: false
+    t.integer "Quantity", default: 0, null: false
     t.integer "QuantityMax", null: false
     t.date "CreatedAt"
     t.date "UpdatedAt"
@@ -46,7 +59,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_14_142021) do
     t.integer "AccountCode"
     t.boolean "isVolunteerStudent", default: false, null: false
     t.date "CreatedAt"
-    t.date "UpdateAt"
+    t.date "UpdatedAt"
     t.index ["AccountCode"], name: "Student_Account"
   end
 
@@ -69,12 +82,12 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_14_142021) do
     t.index ["StudentCode"], name: "Student_Student_Interview"
   end
 
-  create_table "volunteer_account", primary_key: "AccountCode", id: :integer, default: nil, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
+  create_table "volunteer_account", primary_key: "AccountCode", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.string "Username", null: false
     t.string "Password", null: false
     t.boolean "Role"
-    t.date "CreatedAt", null: false
-    t.date "UpdatedAt", null: false
+    t.date "CreatedAt"
+    t.date "UpdatedAt"
   end
 
   add_foreign_key "student", "volunteer_account", column: "AccountCode", primary_key: "AccountCode", name: "Student_Account"

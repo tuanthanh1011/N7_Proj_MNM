@@ -34,43 +34,16 @@ class Api::V1::InterviewAdminController < ApplicationController
 
   # Hàm cập nhật phỏng vấn (interview by id)
   def update
-    isValidInterviewDate = false
-    isValidDeletedAt = false
     interviewCode = params[:id]
   
     if params.key?(:id)
       params.delete(:id)
     end
 
-    # Kiểm tra định dạng ngày phỏng vấn
-    if params[:interviewDate]
-      interviewDate = params[:interviewDate]
-      unless valid_date_format?(interviewDate)
-        isValidInterviewDate = true
-      end
-    end
-
-    # Kiểm tra định dạng ngày xóa phỏng vấn (Chấp nhận giá trị null -> Bỏ xóa mềm)
-    if params[:deletedAt].present? && params[:deletedAt] != 'null'
-      deletedAt = params[:deletedAt]
-    
-      unless valid_date_format?(deletedAt)
-        isValidDeletedAt = true
-      end
-    end
-
     result = InterviewService.updateInterview(interviewCode, convert_params_to_uppercase(update_params))
   
     unless result[:success] 
-      result[:errors] ||= [] 
-      if isValidInterviewDate && params.values.all?(&:present?)
-          result[:errors].push("Ngày phỏng vấn không đúng định dạng")
-      end
-
-      if isValidDeletedAt && params.values.all?(&:present?)
-        result[:errors].push("Trường ngày xóa không đúng định dạng")
-      end
-
+     
       render_response(result[:message], status: result[:status], errors: result[:errors])
       return
     end
@@ -80,23 +53,12 @@ class Api::V1::InterviewAdminController < ApplicationController
 
   # Hàm tạo mới phỏng vấn
   def create
-    isValidInterviewDate = false
-
-    # Kiểm tra định dạng ngày phỏng vấn
-    if params[:interviewDate]
-      interviewDate = params[:interviewDate]
-      unless valid_date_format?(interviewDate)
-        isValidInterviewDate = true
-      end
-    end
+   
 
     result = InterviewService.createInterview(convert_params_to_uppercase(create_params))
 
     unless result[:success]
-      result[:errors] ||= [] 
-      if isValidInterviewDate && params.values_at(:quantityMax, :interviewRoom).all?(&:present?) && params.values.all?(&:present?)
-        result[:errors].push("Ngày phỏng vấn không đúng định dạng")
-      end
+    
       render_response(result[:message], status: result[:status], errors: result[:errors])
       return
     end
@@ -128,11 +90,4 @@ class Api::V1::InterviewAdminController < ApplicationController
     params.transform_keys { |key| key.to_s.camelize.to_sym }
   end
 
-  private
-
-  def valid_date_format?(date_str)
-    # Sử dụng regex để kiểm tra định dạng ngày (YYYY-MM-DD)
-    regex = /\A\d{4}-\d{2}-\d{2}\z/
-    return !!(date_str =~ regex)
-  end
 end

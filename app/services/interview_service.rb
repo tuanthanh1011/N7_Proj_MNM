@@ -85,7 +85,7 @@ class InterviewService
       interview.CreatedAt = Time.now
   
       if interview.save
-        return { success: true, message: "Cập nhật phỏng vấn thành công" }
+        return { success: true, message: "Tạo mới phỏng vấn thành công" }
       else
         return { success: false, message: "Có lỗi khi thêm phỏng vấn", errors: interview.errors.full_messages, status: :unprocessable_entity }
       end
@@ -93,6 +93,5 @@ class InterviewService
       return { success: false, message: e.message, status: 400 }
     end
   end
-  
 
 end

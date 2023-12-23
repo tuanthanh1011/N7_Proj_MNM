@@ -13,10 +13,15 @@
       { path: '/api/v1/student_interview', methods: [:post] },
       { path: '/api/v1/student_interview', methods: [:get] },
       { path: '/api/v1/interviews/admin', methods: [:get] },
+      { path: '/api/v1/interviews/admin', methods: [:post] },
       { path: %r{/api/v1/student_interview/admin/.+}, methods: [:patch] },
       { path: %r{/api/v1/interviews/admin/.+}, methods: [:patch] },
       { path: %r{/api/v1/interviews/admin/.+}, methods: [:delete] },
-      { path: '/api/v1/student_interview/admin', methods: [:get] },
+      { path: %r{/api/v1/activities/admin/.+}, methods: [:delete] },
+      { path: %r{/api/v1/activities/admin/.+}, methods: [:patch] },
+      { path: %r{/api/v1/activities/admin/.+}, methods: [:get] },
+      { path: '/api/v1/activities/admin', methods: [:post] },
+      { path: '/api/v1/activities/admin', methods: [:get] },
     ]
   end
 

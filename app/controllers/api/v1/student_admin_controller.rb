@@ -35,4 +35,18 @@ class Api::V1::StudentAdminController < ApplicationController
         render_response("Hiển thị danh sách sinh viên tình nguyện", data: result, status: 200)
     end
 
+    def delete_student_volunteer 
+      studentCode = params[:id]
+
+      result = StudentService.update_del_volunteer(studentCode);
+
+      puts result
+      unless result[:success]
+        render_response(result[:message], status: result[:status])
+        return
+      end
+
+      render_response(result[:message], status: 200)
+    end
+
 end

@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ActivityCode: 1
+  ActivityName: MyString
+  BeginingDate: 2023-12-23
+  Manager: MyString
+  SupportMoney: 1.5
+  Description: MyText
+  CreatedAt: 2023-12-23
+  UpdatedAt: 2023-12-23
+
+two:
+  ActivityCode: 1
+  ActivityName: MyString
+  BeginingDate: 2023-12-23
+  Manager: MyString
+  SupportMoney: 1.5
+  Description: MyText
+  CreatedAt: 2023-12-23
+  UpdatedAt: 2023-12-23
