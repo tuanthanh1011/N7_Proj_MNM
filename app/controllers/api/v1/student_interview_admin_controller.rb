@@ -20,53 +20,15 @@ class Api::V1::StudentInterviewAdminController < ApplicationController
     studentCode = params[:id]
     resultInterview = params[:resultInterview]
 
-    # Xử lý đầu vào chỉ bao gồm true hoặc false
-    unless [true, false].include?(resultInterview)
-      render_response("Giá trị đầu vào không hợp lệ", status: 400)
+    result = StudentInterviewService.updateResultService(studentCode, resultInterview)
+    
+    # Xử lý lỗi
+    unless result[:success]
+      render_response(result[:message], status: result[:status])
       return
     end
 
-    # Tìm sinh viên với mã SV tương ứng
-    updated_interview = StudentInterview.find_by(StudentCode: studentCode, ResultInterview: nil)
-
-    if updated_interview
-      StudentInterview.where(StudentCode: studentCode, ResultInterview: nil).update_all(ResultInterview: resultInterview, UpdatedAt: Time.now)
-
-      # Kiểm tra nếu sinh viên pass pvan thì thực hiện mã
-      if !!resultInterview == true
-        # Cập nhật trạng thái sinh viên (table: student -> isVolunteer: true)
-        resultUpdateVolunteer = StudentService.updateVolunteer(updated_interview.StudentCode)
-
-        unless resultUpdateVolunteer[:success]
-          render_response(resultUpdateVolunteer[:message], status: 400)
-          return
-        end
-
-        # Tự động tạo tài khoản cho sv pass pvan
-        resultCreateAccount = VolunteerAccountService.createAccount(updated_interview.StudentCode)
-
-        unless resultCreateAccount[:success]
-          render_response(resultCreateAccount[:message], status: 400)
-          return
-        end
-
-        # Lấy ra accountCode của tài khoản vừa tạo
-        accountCode = resultCreateAccount[:accountCode]
-
-        # Cập nhật mã tài khoản vào bảng student
-        resultUpdateAccountCode = StudentService.updateAccountCode(updated_interview.StudentCode, accountCode)
-
-        unless resultUpdateAccountCode[:success]
-          render_response(resultUpdateAccountCode[:message], status: 400)
-          return
-        end
-
-      end
-
-      render_response("Cập nhật thông tin phỏng vấn thành công", status: 200)
-    else
-      render_response("Sinh viên hiện không nằm trong danh sách phỏng vấn", status: 404)
-    end
+    render_response(result[:message], data: result[:data], status: result[:status])
   end
 
 end

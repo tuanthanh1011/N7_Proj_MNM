@@ -4,10 +4,8 @@ Rails.application.routes.draw do
 
       resources :students, only: [] do
         post 'search', on: :collection, to: 'students#search'
-        get ':id', on: :collection, to: 'students#show'
-
-        # Tác vụ admin
         get 'admin', on: :collection, to: 'student_admin#index'
+        get ':id', on: :collection, to: 'students#show'
       end
 
       resources :volunteers, only: [] do
