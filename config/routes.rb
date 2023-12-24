@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   namespace :api do
+    get 'v1/student_activity_controller'
     namespace :v1 do
 
       resources :students, only: [] do
@@ -29,6 +30,7 @@ Rails.application.routes.draw do
 
       resources :student_interview, only: [] do
         patch 'admin/:id', on: :collection, to: 'student_interview_admin#update'
+        get 'admin/:id', on: :collection, to: 'student_interview_admin#show'
         get 'admin', on: :collection, to: 'student_interview_admin#index'
       end
 
@@ -45,6 +47,11 @@ Rails.application.routes.draw do
         get 'admin/:id', on: :collection, to: 'activity_admin#show'
         post 'admin', on: :collection, to: 'activity_admin#create'
         delete 'admin/:id', on: :collection, to: 'activity_admin#destroy'
+        delete ':idActivity/:idStudent', on: :collection, to: 'activity#show'
+      end 
+
+      resources :student_activity, only: [] do
+        post 'admin', on: :collection, to: 'student_activity_admin#create'
       end
 
     end

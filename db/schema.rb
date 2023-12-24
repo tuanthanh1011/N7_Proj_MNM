@@ -10,20 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_23_110647) do
-  create_table "activities", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "ActivityCode"
-    t.string "ActivityName"
-    t.date "BeginingDate"
-    t.string "Manager"
-    t.float "SupportMoney"
-    t.text "Description"
-    t.date "CreatedAt"
-    t.date "UpdatedAt"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
+ActiveRecord::Schema[7.1].define(version: 2023_12_24_092258) do
   create_table "activity", primary_key: "ActivityCode", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.string "ActivityName", null: false
     t.date "BeginingDate", null: false
@@ -47,8 +34,18 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_23_110647) do
   create_table "rating", primary_key: "RatingCode", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.integer "RatingStar", null: false
     t.text "Description", null: false
-    t.date "CreatedAt", null: false
-    t.date "UpdatedAt", null: false
+    t.date "CreatedAt"
+    t.date "UpdatedAt"
+  end
+
+  create_table "ratings", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "RatingCode"
+    t.integer "RatingStar"
+    t.text "Description"
+    t.date "CreatedAt"
+    t.date "UpdatedAt"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "student", primary_key: "StudentCode", id: { type: :string, limit: 50 }, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
@@ -63,10 +60,18 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_23_110647) do
     t.index ["AccountCode"], name: "Student_Account"
   end
 
+  create_table "student_activities", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "ActivityCode"
+    t.string "StudentCode"
+    t.integer "RatingCode"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "student_activity", id: false, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.integer "ActivityCode", null: false
     t.string "StudentCode", limit: 50, null: false
-    t.integer "RatingCode", null: false
+    t.integer "RatingCode"
     t.index ["ActivityCode"], name: "Student_Activity"
     t.index ["RatingCode"], name: "Student_Rating"
     t.index ["StudentCode"], name: "Student"

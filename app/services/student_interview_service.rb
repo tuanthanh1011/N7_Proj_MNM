@@ -76,6 +76,32 @@ class StudentInterviewService
     end
   end
 
+  # Hàm lấy ra các sinh viên trong 1 phỏng vấn
+  def self.getStudentByInterview (interviewCode, params)
+    begin
+      student_interview = StudentInterview.joins(:student)
+      .select('student_interview.*, student.studentCode, student.studentName, student.className')
+      .where(ResultInterview: nil, InterviewCode: interviewCode).all
+
+      if student_interview
+        # Phân trang, lọc, sắp xếp dữ liệu
+        processedData = PaginationSortSearch.dataExploration(student_interview, params, "StudentName")
+  
+        unless processedData[:success]
+          return {success: false, message: processedData[:message], status: processedData[:status]}
+        end
+        # Chuyển đổi kết quả thành camel case
+        result = CamelCaseConvert.convert_to_camel_case(processedData[:data].to_a)
+
+        return { success: true, message: "Hiển thị danh sách sinh viên theo phỏng vấn", data: {listData: result, totalCount: processedData[:totalCount]}, status: 200}
+      else 
+        return {success: false, message: "Không tìm thấy phỏng vấn", status: 400}
+      end 
+    rescue StandardError => e
+        return { success: false, message: e.message, status: 400 }
+    end
+end
+
   # Hàm kiểm tra sinh viên đã đăng ký phỏng vấn trước đó chưa
   def self.isApplyInterview (studentCode)
     studentInterview = StudentInterview.find_by(StudentCode: studentCode, ResultInterview: nil)

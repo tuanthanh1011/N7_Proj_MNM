@@ -23,6 +23,7 @@ class InterviewService
     end
   end
 
+
   # Hàm cập nhật sl apply
   def self.updateQtt(interviewCode)
     begin

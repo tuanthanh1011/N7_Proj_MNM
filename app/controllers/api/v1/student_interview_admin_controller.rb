@@ -31,4 +31,18 @@ class Api::V1::StudentInterviewAdminController < ApplicationController
     render_response(result[:message], data: result[:data], status: result[:status])
   end
 
+  def show
+    interviewCode = params[:id]
+
+    result = StudentInterviewService.getStudentByInterview(interviewCode, params)
+
+    # Xử lý lỗi
+    unless result[:success]
+      render_response(result[:message], status: result[:status])
+      return
+    end
+
+    render_response(result[:message], data: result[:data], status: result[:status])
+  end
+
 end

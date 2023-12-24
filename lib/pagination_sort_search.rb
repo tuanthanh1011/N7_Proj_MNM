@@ -1,21 +1,21 @@
 module PaginationSortSearch
   def self.dataExploration(data, params, paramFilter)
     begin
-      total_count = data.length
       # Lọc theo điều kiện nếu có tham số 'filter' được truyền vào
       if params[:search].present? && paramFilter.present?
         data = data.where("LOWER(#{paramFilter}) LIKE ?", "%#{params[:search].downcase}%")
       end
-    
+      
+      total_count = data.length
       # Phân trang nếu có tham số 'page' được truyền vào
       if params[:page].present?
         # Phân trang với số lượng bản ghi truyền từ params (mặc định 5)
         data_per_page = params[:limit].present? ? params[:limit].to_i : 5
         page_number = params[:page].to_i
-    
+        
         data = data.page(page_number).per(data_per_page)
       end
-
+      
       if params[:sort].present?
         param_sort = convert_camelcase_to_pascalcase(params[:sort])
         
