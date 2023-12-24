@@ -1,9 +1,9 @@
 class StudentService
+  
   def self.findStudentByAccount(accountCode)
     student = Student.find_by(AccountCode: accountCode)
     return student.present?
   end
-
 
   def self.isVolunteer(studentCode)
     student = Student.find_by(StudentCode: studentCode, isVolunteerStudent: true)

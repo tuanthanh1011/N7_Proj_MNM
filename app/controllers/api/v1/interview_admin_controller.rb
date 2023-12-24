@@ -1,29 +1,27 @@
-require "./app/services/interview_service.rb"
 
 class Api::V1::InterviewAdminController < ApplicationController
 
   # Thực hiện lấy ra tất cả bản ghi trong bảng interview
   def index_admin
-    interviews = Interview.all
-    # Phân trang, lọc, sắp xếp dữ liệu
-    dataAfter = PaginationSortSearch.dataExploration(interviews, params, "InterviewCode")
 
-    unless dataAfter[:success]
-      render_response(dataAfter[:message], status: dataAfter[:status])
+    # Gọi hàm lấy tất cả hoạt động (truyền params: lọc, sắp xếp, phân trang)
+    result = InterviewAdminService.getAllInterviewService (params)
+    
+    # Xử lý lỗi
+    unless result[:success]
+      render_response(result[:message], status: result[:status])
       return
     end
 
-    # Chuyển đổi kết quả thành camel case
-    result = CamelCaseConvert.convert_to_camel_case(dataAfter[:data].to_a)
-
-    render_response("Hiển thị danh sách lịch phỏng vấn", data: {listData: result, totalCount: dataAfter[:totalCount]}, status: 200)
+    render_response(result[:message], data: result[:data], status: result[:status])
   end
 
   # Xóa mềm một bản ghi interview (by id)
   def destroy
     interviewCode = params[:id]
-    result = InterviewService.deleteInterview(interviewCode)
+    result = InterviewAdminService.deleteInterviewService(interviewCode)
 
+    # Xử lý lỗi
     unless result[:success]
       render_response(result[:message], status: result[:status])
       return
@@ -40,10 +38,10 @@ class Api::V1::InterviewAdminController < ApplicationController
       params.delete(:id)
     end
 
-    result = InterviewService.updateInterview(interviewCode, convert_params_to_uppercase(update_params))
+    result = InterviewAdminService.updateInterviewService(interviewCode, convert_params_to_uppercase(update_params))
   
+    # Xử lý lỗi
     unless result[:success] 
-     
       render_response(result[:message], status: result[:status], errors: result[:errors])
       return
     end
@@ -53,12 +51,10 @@ class Api::V1::InterviewAdminController < ApplicationController
 
   # Hàm tạo mới phỏng vấn
   def create
-   
+    result = InterviewAdminService.createInterviewService(convert_params_to_uppercase(create_params))
 
-    result = InterviewService.createInterview(convert_params_to_uppercase(create_params))
-
+    # Xử lý lỗi
     unless result[:success]
-    
       render_response(result[:message], status: result[:status], errors: result[:errors])
       return
     end
@@ -85,7 +81,6 @@ class Api::V1::InterviewAdminController < ApplicationController
   end
   
   private
-  
   def convert_params_to_uppercase(params)
     params.transform_keys { |key| key.to_s.camelize.to_sym }
   end

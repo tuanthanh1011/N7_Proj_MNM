@@ -1,19 +1,15 @@
 class Api::V1::InterviewController < ApplicationController
   def index
-    interviews = Interview.where(deletedAt: nil)
-
-    # Phân trang, lọc, sắp xếp dữ liệu
-    dataAfter = PaginationSortSearch.dataExploration(interviews, params, "")
-
-    unless dataAfter[:success]
-      render_response(dataAfter[:message], status: dataAfter[:status])
+    # Gọi hàm lấy tất cả phỏng vấn (truyền params: lọc, sắp xếp, phân trang)
+    result = InterviewService.getAllInterviewService (params)
+    
+    # Xử lý lỗi
+    unless result[:success]
+      render_response(result[:message], status: result[:status])
       return
     end
 
-    # Chuyển đổi kết quả thành camel case
-    result = CamelCaseConvert.convert_to_camel_case(dataAfter[:data].to_a)
-
-    render_response("Hiển thị danh sách lịch phỏng vấn", data: {listData: result, totalCount: dataAfter[:totalCount]}, status: 200)
+    render_response(result[:message], data: result[:data], status: result[:status])
   end
 
 end

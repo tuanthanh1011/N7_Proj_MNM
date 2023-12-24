@@ -13,6 +13,7 @@ class Api::V1::ActivityAdminController < ApplicationController
     render_response(result[:message], data: result[:data], status: result[:status])
   end
 
+
   # Xem hoạt động (by id)
   def show
     activityCode = params[:id]
@@ -28,8 +29,10 @@ class Api::V1::ActivityAdminController < ApplicationController
     render_response(result[:message], data: result[:data], status: result[:status])
   end
 
+
   # Xóa mềm một bản ghi activity (by id)
   def destroy
+    # Lấy ra id truyền trong param
     activityCode = params[:id]
 
     result = ActivityAdminService.deleteActivity(activityCode)
@@ -42,10 +45,13 @@ class Api::V1::ActivityAdminController < ApplicationController
     render_response(result[:message], status: result[:status])
   end
 
+
   # Hàm cập nhật activity (activity by id)
   def update
+    # Lấy ra id truyền trong param
     activityCode = params[:id]
   
+    # Loại bỏ id trong object parameters
     if params.key?(:id)
       params.delete(:id)
     end
@@ -60,6 +66,7 @@ class Api::V1::ActivityAdminController < ApplicationController
     render_response(result[:message], status: 200)
   end
 
+
   # Hàm tạo mới hoạt động
   def create
 
@@ -73,6 +80,8 @@ class Api::V1::ActivityAdminController < ApplicationController
     render_response(result[:message], status: 200)
   end
   
+
+  # Khai báo các trường được chấp nhận trong body request
   def activity_params
     params.permit(
       :activityName,
@@ -85,6 +94,7 @@ class Api::V1::ActivityAdminController < ApplicationController
   
   private
   
+  # Hàm chuyển đổi từ camelcase sang uppercase
   def convert_params_to_uppercase(params)
     params.transform_keys { |key| key.to_s.camelize.to_sym }
   end

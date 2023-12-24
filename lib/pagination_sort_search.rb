@@ -16,17 +16,18 @@ module PaginationSortSearch
         data = data.page(page_number).per(data_per_page)
       end
 
-      # Sắp xếp theo trường studentName nếu có tham số 'sort' là 'studentName'
       if params[:sort].present?
         param_sort = convert_camelcase_to_pascalcase(params[:sort])
-
-        #  #Kiểm tra nếu trường cần sắp xếp không tồn tại thì trả về lỗi
-        # if !data.column_names.include?(param_sort)
-        #   return { success: false, message: "Trường cần sắp xếp không tồn tại", status: 400 }
-        # end
-
+        
         order_sort = params[:order].present? ? params[:order].to_sym : :asc
-        data = data.order(param_sort => order_sort)
+        begin
+          data = data.order(param_sort => order_sort)
+           
+          # Sử dụng data nhằm có thể ném ra ngoại lệ StatementInvalid
+          puts data
+        rescue ActiveRecord::StatementInvalid => e
+          return { success: false, message: "Trường cần sắp xếp không tồn tại", status: 400 }
+        end
       end
     rescue StandardError => e
       return { success: false, message: "Tham số không chính xác", status: 400 }
