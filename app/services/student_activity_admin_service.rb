@@ -21,12 +21,6 @@ class StudentActivityAdminService
                 next
             end
         
-            # Kiểm tra sinh viên đã tham gia hoạt động trước đó chưa
-            if isJoinedActivity(student_code, activity_code)
-                error_results <<  "Sinh viên mã sinh viên #{student_code} đã tham gia hoạt động này" 
-                validate_result = false
-                next
-            end
         end
       
         { result: validate_result, message: error_results }
@@ -43,13 +37,20 @@ class StudentActivityAdminService
         end
 
         if (validate_result[:result])
+
+            resultDelete = deleteStudentActivityService(activityCode)
+
+            # Xử lý lỗi khi xóa 
+            unless resultDelete[:success]
+                return { success: false, message: resultDelete[:message], status: resultDelete[:status]}
+            end
+
             student_codes.each do |studentCode|
                 begin
-                 
                     student_activity = StudentActivity.new(payload.merge(StudentCode: studentCode, ActivityCode: activityCode))
             
                     if student_activity.save
-                    # 
+                    # Thêm thành công
                     else
                         return { success: false, message: "Có lỗi khi thêm sinh viên tham gia hoạt động", errors: student_activity.errors.full_messages, status: :unprocessable_entity }
                     end
@@ -66,6 +67,25 @@ class StudentActivityAdminService
         return { success: true, message: "Thêm sinh viên vào hoạt động thành công" }
     end
 
+    def self.deleteStudentActivityService(activityCode)
+        begin
+          # Lấy ra tất cả sinh viên tham gia hoạt động có mã hoạt động tương ứng
+          student_activity = StudentActivity.where("student_activity.ActivityCode = ?", activityCode).all
+      
+          student_activity.each do |student|
+            p student
+          end
+      
+          # Xóa tất cả bản ghi
+          student_activity.destroy_all
+      
+          return { success: true, message: "Xóa sinh viên khỏi hoạt động thành công" }
+      
+        rescue StandardError => e
+          return { success: false, message: "Có lỗi khi xóa sinh viên tham gia hoạt động #{e.message}", status: 400 }
+        end
+    end
+      
     # Hàm lấy ra sinh viên đang tham gia theo mã hoạt động
     def self.getStudentByActivity (params, activityCode)
         begin

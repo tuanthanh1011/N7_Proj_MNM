@@ -38,16 +38,6 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_24_092258) do
     t.date "UpdatedAt"
   end
 
-  create_table "ratings", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "RatingCode"
-    t.integer "RatingStar"
-    t.text "Description"
-    t.date "CreatedAt"
-    t.date "UpdatedAt"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "student", primary_key: "StudentCode", id: { type: :string, limit: 50 }, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.string "StudentName", null: false
     t.string "ClassName", null: false

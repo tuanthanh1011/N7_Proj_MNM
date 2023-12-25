@@ -5,8 +5,7 @@ class StudentInterviewService
     begin
       # Thực hiện join 2 bảng
       student_interview = StudentInterview.joins(:student)
-      .select('student_interview.*, student.studentCode, student.studentName, student.className')
-      .where(ResultInterview: nil).all
+      .select('student_interview.*, student.studentCode, student.studentName, student.className').all
 
       # Phân trang, lọc, sắp xếp dữ liệu
       processedData = PaginationSortSearch.dataExploration(student_interview, params, "StudentName")
@@ -15,8 +14,6 @@ class StudentInterviewService
         return {success: false, message: processedData[:message], status: processedData[:status]}
       end
       
-      puts "HIIH: ", processedData[:data].to_a
-
       # Chuyển đổi kết quả thành camel case
       result = CamelCaseConvert.convert_to_camel_case(processedData[:data].to_a)
 

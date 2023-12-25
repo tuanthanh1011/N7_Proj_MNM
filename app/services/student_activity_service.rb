@@ -20,7 +20,6 @@ class StudentActivityService
             # Phân trang, lọc, sắp xếp dữ liệu
             processedData = PaginationSortSearch.dataExploration(student_activity, params, "ActivityName")
 
-            puts "HIIH: ", processedData[:data].to_a
             # Xử lý lỗi khi thực hiện xử lý dữ liệu
             unless processedData[:success]
                 return {success: false, message: processedData[:message], status: processedData[:status]}
