@@ -79,7 +79,7 @@ class StudentInterviewService
   def self.getStudentByInterview (interviewCode, params)
     begin
       student_interview = StudentInterview.joins(:student)
-      .select('student_interview.*, student.studentCode, student.studentName, student.className')
+      .select('student_interview.*, student.studentCode, student.studentName, student.className, student.phoneNumber, student.email')
       .where(InterviewCode: interviewCode).all
 
       if student_interview
