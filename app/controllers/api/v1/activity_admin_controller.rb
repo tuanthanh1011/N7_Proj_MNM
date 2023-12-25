@@ -13,7 +13,6 @@ class Api::V1::ActivityAdminController < ApplicationController
     render_response(result[:message], data: result[:data], status: result[:status])
   end
 
-
   # Xem hoạt động (by id)
   def show
     activityCode = params[:id]
@@ -28,7 +27,6 @@ class Api::V1::ActivityAdminController < ApplicationController
 
     render_response(result[:message], data: result[:data], status: result[:status])
   end
-
 
   # Xóa mềm một bản ghi activity (by id)
   def destroy

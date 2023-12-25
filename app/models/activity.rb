@@ -1,6 +1,8 @@
 class Activity < ApplicationRecord
     self.table_name = 'activity'
 
+    has_one :student_interview, foreign_key: 'ActivityCode', primary_key: 'ActivityCode'
+
     validate do |activity|
         # Kiểm tra các điều kiện bổ sung chỉ khi tất cả ba trường đã nhập
         activity.errors.add(:base, "Trường tên hoạt động không được để trống!") if activity.ActivityName.blank?

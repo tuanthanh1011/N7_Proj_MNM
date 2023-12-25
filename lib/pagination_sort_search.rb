@@ -23,8 +23,7 @@ module PaginationSortSearch
         begin
           data = data.order(param_sort => order_sort)
            
-          # Sử dụng data nhằm có thể ném ra ngoại lệ StatementInvalid
-          puts data
+        # Sử dụng data nhằm có thể ném ra ngoại lệ StatementInvalid
         rescue ActiveRecord::StatementInvalid => e
           return { success: false, message: "Trường cần sắp xếp không tồn tại", status: 400 }
         end

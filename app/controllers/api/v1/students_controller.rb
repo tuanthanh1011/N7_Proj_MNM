@@ -83,19 +83,17 @@ class Api::V1::StudentsController < ApplicationController
     studentName = params[:studentName]
     className = params[:className]
 
-     
-    # Xử lý kiểm tra đã là SVTN ?
-    if StudentService.isVolunteer(studentCode)
-      render_response("Bạn đã là sinh viên tình nguyện", status: 400)
-      return
-    end
-
     student = Student.find_by(
       StudentCode: studentCode,
       StudentName: studentName,
       ClassName: className
-    )
-    if student
+      )
+      if student
+        # Xử lý kiểm tra đã là SVTN ?
+        if StudentService.isVolunteer(studentCode)
+          render_response("Bạn đã là sinh viên tình nguyện", status: 400)
+          return
+        end
       result = CamelCaseConvert.convert_to_camel_case(student)
       render_response("Tìm kiếm sinh viên", data: result, status: 200)
     else 

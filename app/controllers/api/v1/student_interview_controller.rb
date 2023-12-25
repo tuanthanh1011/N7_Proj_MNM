@@ -8,7 +8,7 @@ class Api::V1::StudentInterviewController < ApplicationController
     
     # Xử lý lỗi
     unless result[:success]
-      render_response(result[:message], status: result[:status])
+      render_response(result[:message], status: result[:status], errors: result[:errors])
       return
     end
 

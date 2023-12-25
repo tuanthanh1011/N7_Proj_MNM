@@ -14,6 +14,8 @@ class StudentInterviewService
       unless processedData[:success]
         return {success: false, message: processedData[:message], status: processedData[:status]}
       end
+      
+      puts "HIIH: ", processedData[:data].to_a
 
       # Chuyển đổi kết quả thành camel case
       result = CamelCaseConvert.convert_to_camel_case(processedData[:data].to_a)
@@ -146,7 +148,7 @@ end
           }
           return { success: true, message: "Đăng ký phỏng vấn thành công", data: data_student, status: 200}
         else
-          return { success: false, message: "Có lỗi khi đăng ký", status: 400}
+          return { success: false, message: "Có lỗi khi đăng ký", errors: student_interview.errors.full_messages, status: 400}
         end
       rescue ActiveRecord::InvalidForeignKey => e
         return { success: false, message: "Thông tin đăng ký không chính xác", status: 400}

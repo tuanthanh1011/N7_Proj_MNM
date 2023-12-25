@@ -1,8 +1,14 @@
 class Api::V1::StudentActivityAdminController < ApplicationController
     def create
-        result = StudentActivity.createStudentActivity(convert_params_to_uppercase(create_params))
+        activityCode = params[:id]
+        result = StudentActivityAdminService.createStudentActivityService(convert_params_to_uppercase(create_params), activityCode)
 
         unless result[:success]
+          
+          if result[:errors].nil?
+            result[:errors] = []
+          end
+
           render_response(result[:message], status: result[:status], errors: result[:errors])
           return
         end
@@ -10,21 +16,21 @@ class Api::V1::StudentActivityAdminController < ApplicationController
         render_response(result[:message], status: 200)
     end
 
-    def update_params
-        params.permit(
-          :interviewDate,
-          :interviewRoom,
-          :quantity,
-          :quantityMax,
-          :deletedAt
-        )
+    def show 
+      activityCode = params[:id]
+      result = StudentActivityAdminService.getStudentByActivity(params, activityCode)
+
+        unless result[:success]
+          render_response(result[:message], status: result[:status])
+          return
+        end
+      
+        render_response(result[:message], data: result[:data], status: 200)
     end
-    
+
     def create_params
         params.permit(
-          :activityCode,
-          :studentCode,
-          :RatingCode
+          studentCode: [],
         )
     end
       

@@ -48,11 +48,10 @@ Rails.application.routes.draw do
         post 'admin', on: :collection, to: 'activity_admin#create'
         delete 'admin/:id', on: :collection, to: 'activity_admin#destroy'
         delete ':idActivity/:idStudent', on: :collection, to: 'activity#show'
+        get 'admin/:id/selected-volunteer', on: :collection, to: 'student_activity_admin#show'
+        post 'admin/:id', on: :collection, to: 'student_activity_admin#create'
+        get ':id', on: :collection, to: 'student_activity#index'
       end 
-
-      resources :student_activity, only: [] do
-        post 'admin', on: :collection, to: 'student_activity_admin#create'
-      end
 
     end
   end
