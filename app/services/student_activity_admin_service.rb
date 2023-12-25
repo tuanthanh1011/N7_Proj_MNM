@@ -69,20 +69,16 @@ class StudentActivityAdminService
 
     def self.deleteStudentActivityService(activityCode)
         begin
-          # Lấy ra tất cả sinh viên tham gia hoạt động có mã hoạt động tương ứng
-          student_activity = StudentActivity.where("student_activity.ActivityCode = ?", activityCode).all
+            # Lấy ra tất cả sinh viên tham gia hoạt động có mã hoạt động tương ứng
+            student_activity = StudentActivity.where("ActivityCode = ?", activityCode)
       
-          student_activity.each do |student|
-            p student
-          end
+            # Xóa tất cả bản ghi
+            student_activity.delete_all
       
-          # Xóa tất cả bản ghi
-          student_activity.destroy_all
-      
-          return { success: true, message: "Xóa sinh viên khỏi hoạt động thành công" }
+            return { success: true, message: "Xóa sinh viên khỏi hoạt động thành công" }
       
         rescue StandardError => e
-          return { success: false, message: "Có lỗi khi xóa sinh viên tham gia hoạt động #{e.message}", status: 400 }
+            return { success: false, message: "Có lỗi khi xóa sinh viên tham gia hoạt động #{e.message}", status: 400 }
         end
     end
       

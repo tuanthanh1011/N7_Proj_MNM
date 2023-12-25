@@ -66,7 +66,6 @@ class Api::V1::InterviewAdminController < ApplicationController
     params.permit(
       :interviewDate,
       :interviewRoom,
-      :quantity,
       :quantityMax,
       :deletedAt
     )

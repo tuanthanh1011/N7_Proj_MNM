@@ -74,4 +74,9 @@ class InterviewAdminService
         end
     end
 
+    # Hàm kiểm tra đã có sinh viên apply chưa
+    def self.isStudentExist (interviewCode)
+        
+    end
+
 end

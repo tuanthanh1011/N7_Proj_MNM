@@ -80,7 +80,7 @@ class StudentInterviewService
     begin
       student_interview = StudentInterview.joins(:student)
       .select('student_interview.*, student.studentCode, student.studentName, student.className')
-      .where(ResultInterview: nil, InterviewCode: interviewCode).all
+      .where(InterviewCode: interviewCode).all
 
       if student_interview
         # Phân trang, lọc, sắp xếp dữ liệu
