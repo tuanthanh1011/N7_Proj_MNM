@@ -50,7 +50,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_24_092258) do
     t.index ["AccountCode"], name: "Student_Account"
   end
 
-  create_table "student_activity", id: false, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
+  create_table "student_activity", primary_key: ["ActivityCode", "StudentCode"], charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.integer "ActivityCode", null: false
     t.string "StudentCode", limit: 50, null: false
     t.integer "RatingCode"
@@ -59,7 +59,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_24_092258) do
     t.index ["StudentCode"], name: "Student"
   end
 
-  create_table "student_interview", id: false, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
+  create_table "student_interview", primary_key: ["StudentCode", "InterviewCode"], charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.string "StudentCode", limit: 50, null: false
     t.integer "InterviewCode", null: false
     t.boolean "ResultInterview"

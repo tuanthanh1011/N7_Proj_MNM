@@ -23,8 +23,16 @@ class InterviewAdminService
             interview = Interview.find_by(InterviewCode: interviewCode, DeletedAt: nil)
                 
             if interview
+
+                # Kiểm tra nếu đã có sinh viên apply thì không cho xóa
+                resultCheckQuantity = isStudentExist(interviewCode)
+                unless resultCheckQuantity
+                    return { success: false, message: "Không thể xóa phỏng vấn khi đang có sinh viên đăng ký", status: 400}
+                end
+                # Kết thúc mã kiểm tra
+
                 if interview.update(DeletedAt: Time.now)
-                    return { success: true, message: "Xóa phỏng vấn thành công" }
+                    return { success: true, message: "Xóa phỏng vấn thành công", status: 200 }
                 else
                     return { success: false, message: "Có lỗi khi xóa phỏng vấn", status: 400 }
                 end
@@ -43,6 +51,17 @@ class InterviewAdminService
             interview = Interview.find_by(InterviewCode: interviewCode)
             
             if interview
+
+                 # Kiểm tra nếu payload chứa quantityMax thì không cho cập nhật nếu đang có sv đăng ky
+                if payload.key?('QuantityMax')
+                     # Kiểm tra nếu đã có sinh viên apply thì không cho cập nhật
+                    resultCheckQuantity = isStudentExist(interviewCode)
+                    unless resultCheckQuantity
+                        return { success: false, message: "Không thể cập nhật số lượng khi đang có sinh viên đăng ký", status: 400}
+                    end
+                    # Kết thúc mã kiểm tra
+                end
+
                 if interview.update(payload)
                     interview.UpdatedAt = Time.now
                     interview.save
@@ -76,7 +95,12 @@ class InterviewAdminService
 
     # Hàm kiểm tra đã có sinh viên apply chưa
     def self.isStudentExist (interviewCode)
-        
+        interview = Interview.find_by(InterviewCode: interviewCode)
+
+        if interview.Quantity > 0
+            return false
+        end
+        return true
     end
 
 end
