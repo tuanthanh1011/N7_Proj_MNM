@@ -28,7 +28,7 @@ class RatingService
     def self.getRatingByActivity(activityCode, params)
       begin
         rating = StudentActivity.joins(:rating).joins(:student)
-        .select('student_activity.*, student.studentCode, student.studentName, student.className, rating.ratingCode, rating.ratingStar, rating.description, rating.createdAt')
+        .select('student_activity.*, student.studentCode, student.studentName, student.className, rating.ratingCode, rating.ratingStarpo, rating.description, rating.createdAt')
         .where(activityCode: activityCode).all
          p rating
   

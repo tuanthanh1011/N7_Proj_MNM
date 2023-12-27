@@ -47,7 +47,7 @@ class StudentActivityAdminService
 
             student_codes.each do |studentCode|
                 begin
-                    student_activity = StudentActivity.new(payload.merge(StudentCode: studentCode, ActivityCode: activityCode))
+                    student_activity = StudentActivity.new(payload.merge(StudentCode: studentCode, ActivityCode: activityCode, RatingCode: nil))
             
                     if student_activity.save
                     # Thêm thành công
