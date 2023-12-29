@@ -1,6 +1,7 @@
 module PaginationSortSearch
   def self.dataExploration(data, params, paramFilter)
-    p data
+    puts params
+    puts paramFilter
     begin
       # Lọc theo điều kiện nếu có tham số 'filter' được truyền vào
       if params[:search].present? && paramFilter.present?

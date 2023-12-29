@@ -2,24 +2,23 @@ class ActivityAdminService
     def self.getAllActivities (params)
        begin
 
-        activities = Activity.left_joins(student_activity: :rating)
-        .select('activity.*, COALESCE(CONVERT(ROUND(AVG(rating.RatingStar), 2), DECIMAL(10, 2)), 0) AS averageRating', 'COALESCE(COUNT(student_activity.ActivityCode), 0) AS numOfParticipant')
-        .group('activity.ActivityCode')
-        .map do |activity|
-          activity.averageRating = activity.averageRating.to_f
-          activity
-        end
+          activities = Activity.left_joins(student_activity: :rating)
+          .select('activity.*, COALESCE(ROUND(AVG(rating.RatingStar), 2), 0) AS averageRating', 'COALESCE(COUNT(student_activity.ActivityCode), 0) AS numOfParticipant')
+          .group('activity.ActivityCode')
 
-            # Phân trang, lọc, sắp xếp dữ liệu
-            processedData = PaginationSortSearch.dataExploration(activities, params, "ActivityName")
+          activities.each do |activity|
+            activity['averageRating'] = activity['averageRating'].to_f
+          end
+          # Phân trang, lọc, sắp xếp dữ liệu
+          processedData = PaginationSortSearch.dataExploration(activities, params, "ActivityName")
 
-            # Xử lý lỗi khi thực hiện xử lý dữ liệu
-            unless processedData[:success]
-                return {success: false, message: processedData[:message], status: processedData[:status]}
-            end
+          # Xử lý lỗi khi thực hiện xử lý dữ liệu
+          unless processedData[:success]
+            return {success: false, message: processedData[:message], status: processedData[:status]}
+          end
 
-            # Chuyển dữ liệu đầu ra thành camel case
-            result = CamelCaseConvert.convert_to_camel_case(processedData[:data].to_a)
+          # Chuyển dữ liệu đầu ra thành camel case
+          result = CamelCaseConvert.convert_to_camel_case(processedData[:data].to_a)
             return {success: true, message: "Hiển thị danh sách hoạt động", data: {listData: result, totalCount: processedData[:totalCount]}, status: 200}
         rescue StandardError => e
             return { success: false, message: e.message, status: 400 }
