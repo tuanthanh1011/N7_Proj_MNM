@@ -31,7 +31,7 @@ class Api::V1::ActivityAdminController < ApplicationController
   # Xóa mềm một bản ghi activity (by id)
   def destroy
     # Lấy ra id truyền trong param
-    activityCode = params[:id]
+    activityCode = params[:activityCode]
 
     result = ActivityAdminService.deleteActivity(activityCode)
 
@@ -42,7 +42,6 @@ class Api::V1::ActivityAdminController < ApplicationController
 
     render_response(result[:message], status: result[:status])
   end
-
 
   # Hàm cập nhật activity (activity by id)
   def update

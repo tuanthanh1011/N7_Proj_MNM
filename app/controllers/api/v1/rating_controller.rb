@@ -25,7 +25,7 @@ class Api::V1::RatingController < ApplicationController
       return
     end
   
-    render_response(result[:message], status: 200)
+    render_response(result[:message],  data: result[:data], status: 200)
   end
   
   def create_params

@@ -18,7 +18,7 @@ class Api::V1::InterviewAdminController < ApplicationController
 
   # Xóa mềm một bản ghi interview (by id)
   def destroy
-    interviewCode = params[:id]
+    interviewCode = params[:interviewCode]
     result = InterviewAdminService.deleteInterviewService(interviewCode)
 
     # Xử lý lỗi

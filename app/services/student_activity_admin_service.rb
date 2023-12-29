@@ -113,8 +113,14 @@ class StudentActivityAdminService
     end
 
     # Hàm kiểm tra activity code có chính xác hay không
-    def self.isExistActivity (activity_code)
+    def self.isExistActivity(activity_code)
         activity = Activity.find_by(ActivityCode: activity_code)
         return !activity.nil?
+    end 
+
+    # Hàm kiểm tra có sinh viên nào đang tham gia hoạt động không
+    def self.isStudentJoin(activity_code)
+        student_activity = StudentActivity.find_by(ActivityCode: activity_code)
+        return !student_activity.nil?
     end
 end

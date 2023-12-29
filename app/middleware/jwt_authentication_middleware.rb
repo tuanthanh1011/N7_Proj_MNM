@@ -23,6 +23,7 @@
       { path: %r{/api/v1/activities/admin/.+}, methods: [:get] },
       { path: '/api/v1/activities/admin', methods: [:post] },
       { path: '/api/v1/activities/admin', methods: [:get] },
+      { path: %r{/api/v1/rating/admin/.+}, methods: [:get] },
     ]
   end
 

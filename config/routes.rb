@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
       resources :volunteers, only: [] do
         get 'admin', on: :collection, to: 'student_admin#show_volunteer'
-        delete 'admin/:id', on: :collection, to: 'student_admin#delete_student_volunteer'
+        delete 'admin', on: :collection, to: 'student_admin#delete_student_volunteer'
       end
 
       resources :auth, only: [] do
@@ -38,7 +38,7 @@ Rails.application.routes.draw do
         get 'admin', on: :collection, to: 'interview_admin#index_admin'
         patch 'admin/:id', on: :collection, to: 'interview_admin#update'
         post 'admin', on: :collection, to: 'interview_admin#create'
-        delete 'admin/:id', on: :collection, to: 'interview_admin#destroy'
+        delete 'admin', on: :collection, to: 'interview_admin#destroy'
       end
 
       resources :activities, only: [] do
@@ -46,7 +46,7 @@ Rails.application.routes.draw do
         patch 'admin/:id', on: :collection, to: 'activity_admin#update'
         get 'admin/:id', on: :collection, to: 'activity_admin#show'
         post 'admin', on: :collection, to: 'activity_admin#create'
-        delete 'admin/:id', on: :collection, to: 'activity_admin#destroy'
+        delete 'admin', on: :collection, to: 'activity_admin#destroy'
         get 'admin/:id/selected-volunteer', on: :collection, to: 'student_activity_admin#show'
         post 'admin/:id', on: :collection, to: 'student_activity_admin#create'
         get ':id', on: :collection, to: 'student_activity#index'
@@ -54,7 +54,7 @@ Rails.application.routes.draw do
 
       resources :rating, only: [] do
         post ':idActivity/:idStudent', on: :collection, to: 'rating#create'
-        get ':id', on: :collection, to: 'rating#show'
+        get 'admin/:id', on: :collection, to: 'rating#show'
       end
     end
   end

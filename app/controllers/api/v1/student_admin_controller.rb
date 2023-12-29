@@ -30,7 +30,7 @@ class Api::V1::StudentAdminController < ApplicationController
 
     # Hàm xóa sinh viên tình nguyện
     def delete_student_volunteer 
-      studentCode = params[:id]
+      studentCode = params[:studentCode]
 
       result = StudentAdminService.deleteVolunteerService(studentCode);
 
