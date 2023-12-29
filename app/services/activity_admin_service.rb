@@ -2,9 +2,13 @@ class ActivityAdminService
     def self.getAllActivities (params)
        begin
 
-            activities = Activity.left_joins(student_activity: :rating)
-            .select('activity.*, COALESCE(CEIL(AVG(rating.RatingStar)), 0) AS averageRating, COALESCE(COUNT(student_activity.ActivityCode), 0) AS numOfParticipant')
-            .group('activity.ActivityCode')
+        activities = Activity.left_joins(student_activity: :rating)
+        .select('activity.*, COALESCE(CONVERT(ROUND(AVG(rating.RatingStar), 2), DECIMAL(10, 2)), 0) AS averageRating', 'COALESCE(COUNT(student_activity.ActivityCode), 0) AS numOfParticipant')
+        .group('activity.ActivityCode')
+        .map do |activity|
+          activity.averageRating = activity.averageRating.to_f
+          activity
+        end
 
             # Phân trang, lọc, sắp xếp dữ liệu
             processedData = PaginationSortSearch.dataExploration(activities, params, "ActivityName")

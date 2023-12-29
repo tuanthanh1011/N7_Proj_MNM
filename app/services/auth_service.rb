@@ -83,7 +83,6 @@ class AuthService
   # Hàm tạo token mới khi access token hết hạn
   def self.refreshTokenService (refreshToken, response)
 
-    puts refreshToken
     # Kiểm tra sự tồn tại của refresh token
     unless refreshToken
       return { success: false, message: "Bạn không có quyền truy cập trang này", status: 401 }
