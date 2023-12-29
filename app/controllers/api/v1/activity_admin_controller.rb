@@ -76,7 +76,44 @@ class Api::V1::ActivityAdminController < ApplicationController
   
     render_response(result[:message], status: 200)
   end
+
+  require 'spreadsheet'
+  def export_file
+    # Tạo một workbook mới
+    workbook = Spreadsheet::Workbook.new
   
+    # Tạo một worksheet trong workbook
+    worksheet = workbook.create_worksheet(name: 'Sheet1')
+  
+    # Thêm tiêu đề cho worksheet
+    worksheet.row(0).concat %w{Mã_hoạt_động Tên_hoạt_động Ngày_bắt_đầu Người_quản_lý Chi_phí_hỗ_trợ Mô_tả Ngày_tạo Đánh_giá_trung_bình Số_người_tham_gia}
+  
+    # Truy vấn cơ sở dữ liệu để lấy dữ liệu
+    data_from_db = Activity.left_joins(student_activity: :rating)
+    .select('activity.*, COALESCE(CONVERT(ROUND(AVG(rating.RatingStar), 2), DECIMAL(10, 2)), 0) AS averageRating', 'COALESCE(COUNT(student_activity.ActivityCode), 0) AS numOfParticipant')
+    .group('activity.ActivityCode')
+    .map do |activity|
+      activity.averageRating = activity.averageRating.to_f
+      activity
+    end
+  
+    # Thêm dữ liệu từ cơ sở dữ liệu vào worksheet
+    data_from_db.each_with_index do |data, index|
+      worksheet.row(index + 1).concat [data.ActivityCode, data.ActivityName, data.BeginingDate, data.Manager, data.SupportMoney, data.Description, data.CreatedAt, data.averageRating, data.numOfParticipant]
+    end
+  
+    # Tạo một string để lưu trữ nội dung của workbook
+    excel_data = StringIO.new
+    workbook.write(excel_data)
+    excel_data.rewind
+  
+    # Trả về tệp Excel dưới dạng response để tải xuống
+    send_data(
+      excel_data.read,
+      type: 'application/vnd.ms-excel',
+      filename: 'Danh sách hoạt động.xls'
+    )
+  end
 
   # Khai báo các trường được chấp nhận trong body request
   def activity_params

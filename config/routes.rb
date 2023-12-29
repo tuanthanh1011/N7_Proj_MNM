@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       end
 
       resources :volunteers, only: [] do
+        get 'admin/export', on: :collection, to: 'student_admin#export_file'
         get 'admin', on: :collection, to: 'student_admin#show_volunteer'
         delete 'admin', on: :collection, to: 'student_admin#delete_student_volunteer'
       end
@@ -36,6 +37,7 @@ Rails.application.routes.draw do
 
       resources :interviews, only: [] do
         get 'admin', on: :collection, to: 'interview_admin#index_admin'
+        get 'admin/export', on: :collection, to: 'interview_admin#export_file'
         patch 'admin/:id', on: :collection, to: 'interview_admin#update'
         post 'admin', on: :collection, to: 'interview_admin#create'
         delete 'admin', on: :collection, to: 'interview_admin#destroy'
@@ -44,6 +46,7 @@ Rails.application.routes.draw do
       resources :activities, only: [] do
         get 'admin', on: :collection, to: 'activity_admin#index'
         patch 'admin/:id', on: :collection, to: 'activity_admin#update'
+        get 'admin/export', on: :collection, to: 'activity_admin#export_file'
         get 'admin/:id', on: :collection, to: 'activity_admin#show'
         post 'admin', on: :collection, to: 'activity_admin#create'
         delete 'admin', on: :collection, to: 'activity_admin#destroy'

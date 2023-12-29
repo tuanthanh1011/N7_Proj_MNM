@@ -21,6 +21,7 @@ gem 'validates_timeliness', '~> 7.0.0.beta1'
 gem 'rails-i18n'
 gem 'kaminari', '~> 1.2', '>= 1.2.2'
 gem 'chronic', '~> 0.10.2'
+gem 'spreadsheet'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"

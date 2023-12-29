@@ -24,6 +24,9 @@
       { path: '/api/v1/activities/admin', methods: [:post] },
       { path: '/api/v1/activities/admin', methods: [:get] },
       { path: %r{/api/v1/rating/admin/.+}, methods: [:get] },
+      { path: '/api/v1/interviews/admin/export', methods: [:get] },
+      { path: '/api/v1/activities/admin/export', methods: [:get] },
+      { path: '/api/v1/volunteers/admin/export', methods: [:get] },
     ]
   end
 

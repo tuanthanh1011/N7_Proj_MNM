@@ -61,6 +61,38 @@ class Api::V1::InterviewAdminController < ApplicationController
   
     render_response(result[:message], status: 200)
   end
+
+  require 'spreadsheet'
+  def export_file
+    # Tạo một workbook mới
+    workbook = Spreadsheet::Workbook.new
+  
+    # Tạo một worksheet trong workbook
+    worksheet = workbook.create_worksheet(name: 'Sheet1')
+  
+    # Thêm tiêu đề cho worksheet
+    worksheet.row(0).concat %w{Mã_phỏng_vấn Ngày_phỏng_vấn Phỏng_phòng_vấn Số_lượng_tham_gia Số_lượng_tối_đa Ngày_tạo Ngày_xóa}
+  
+    # Truy vấn cơ sở dữ liệu để lấy dữ liệu
+    data_from_db = Interview.all
+  
+    # Thêm dữ liệu từ cơ sở dữ liệu vào worksheet
+    data_from_db.each_with_index do |data, index|
+      worksheet.row(index + 1).concat [data.InterviewCode, data.InterviewDate, data.InterviewRoom, data.Quantity, data.QuantityMax, data.CreatedAt, data.DeletedAt]
+    end
+  
+    # Tạo một string để lưu trữ nội dung của workbook
+    excel_data = StringIO.new
+    workbook.write(excel_data)
+    excel_data.rewind
+  
+    # Trả về tệp Excel dưới dạng response để tải xuống
+    send_data(
+      excel_data.read,
+      type: 'application/vnd.ms-excel',
+      filename: 'Danh sách phỏng vấn.xls'
+    )
+  end
   
   def update_params
     params.permit(
