@@ -1,0 +1,21 @@
+databases:
+  - name: mysite
+    databaseName: Volunteer_Student_Management
+    user: admin
+    password: YBdCAc0O
+    plan: free
+
+services:
+  - type: web
+    name: mysite
+    runtime: ruby
+    plan: free
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "./bin/rails server"
+    envVars:
+      - key: DATABASE_URL
+        value: "mysql2://admin:YBdCAc0O@mysql-158770-0.cloudclusters.net:19943/Volunteer_Student_Management?encoding=utf8mb4&pool=5"
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: WEB_CONCURRENCY
+        value: 2

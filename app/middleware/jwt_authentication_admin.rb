@@ -16,6 +16,9 @@ class JwtAuthenticationMiddlewareAdmin
       { path: '/api/v1/auth/logout', methods: [:post] },
       { path: '/api/v1/activities', methods: [:get] },
       { path: %r{/api/v1/rating/.+/.+}, methods: [:post] },
+      { path: '/api/v1/interviews/admin/export', methods: [:get] },
+      { path: '/api/v1/activities/admin/export', methods: [:get] },
+      { path: '/api/v1/volunteers/admin/export', methods: [:get] },
     ]
   end
 
