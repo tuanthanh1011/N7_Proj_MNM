@@ -28,12 +28,27 @@ class Api::V1::ActivityAdminController < ApplicationController
     render_response(result[:message], data: result[:data], status: result[:status])
   end
 
-  # Xóa mềm một bản ghi activity (by id)
+  # Xóa mềm nhiều bản ghi activity (by id)
   def destroy
     # Lấy ra id truyền trong param
     activityCode = params[:activityCode]
 
     result = ActivityAdminService.deleteActivity(activityCode)
+
+    unless result[:success]
+      render_response(result[:message], status: result[:status])
+      return
+    end
+
+    render_response(result[:message], status: result[:status])
+  end
+
+   # Xóa mềm một bản ghi activity (by id)
+   def destroy_one
+    # Lấy ra id truyền trong param
+    activityCode = params[:id]
+
+    result = ActivityAdminService.deleteActivityOne(activityCode)
 
     unless result[:success]
       render_response(result[:message], status: result[:status])

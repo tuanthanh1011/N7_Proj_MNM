@@ -66,6 +66,7 @@ class ActivityAdminService
         { result: validate_result, message: error_results }
     end 
 
+    # Hàm xóa nhiều
     def self.deleteActivity(arrActivityCode)
         begin
           validate_result = validate_input(arrActivityCode)
@@ -75,7 +76,7 @@ class ActivityAdminService
               activity = Activity.find_by(ActivityCode: activityCode)
               activity.destroy if activity
             end
-            return { success: true, message: "Xóa hoạt động thành công", status: 400 }
+            return { success: true, message: "Xóa hoạt động thành công", status: 200 }
           else
             return { success: false, message: validate_result[:message], status: 400 }
           end
@@ -85,5 +86,22 @@ class ActivityAdminService
           return { success: false, message: e.message, status: 400 }
         end
     end
+
+    # Hàm xóa một
+    def self.deleteActivityOne (activityCode)
+      begin
+          activity = Activity.find_by(ActivityCode: activityCode)
+          if activity
+              activity.destroy
+              return {success: true, message: "Xóa hoạt động thành công",status: 200}
+          else 
+              return {success: false, message: "Hoạt động không tồn tại", status: 404}
+          end
+      rescue ActiveRecord::InvalidForeignKey => e
+        return { success: false, message: "Không thể xóa hoạt động khi đã có sinh viên tham gia", status: 400 }
+      rescue StandardError => e
+        return { success: false, message: e.message, status: 400 }
+      end
+  end
 
 end

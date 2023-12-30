@@ -106,4 +106,38 @@ class StudentAdminService
         end
     end
 
+     # Hàm xóa sinh viên tình nguyện đồng thời xóa luôn tài khoản của sinh viên 
+     def self.deleteVolunteerServiceOne(studentCode)
+        begin
+            student = Student.find_by(StudentCode: studentCode, isVolunteerStudent: true)
+          
+            # Kiểm tra sinh viên có tồn tại không, nếu không trả ra message lỗi
+            if student
+                # Lấy mã tài khoản để xóa tài khoản
+                accountCode = student.AccountCode
+                
+                # Set lại giá trị isVolunteer và accountCode
+                if student.update(AccountCode: nil, isVolunteerStudent: false)
+                    student.update(UpdatedAt: Time.now)
+        
+                    # Thực hiện xóa tài khoản
+                    result = VolunteerAccountService.deleteAccount(accountCode)
+        
+                    # Xử lý lỗi khi xóa tài khoản
+                    unless result[:success]
+                        return { success: false, message: result[:message], status: result[:status]}
+                    end
+        
+                    return { success: true, message: "Xóa sinh viên tình nguyện thành công", status: 200 }
+                else
+                    return { success: false, message: "Có lỗi khi xóa sinh viên tình nguyện", status: 404 }
+                end
+            else
+                return { success: false, message: "Sinh viên tình nguyện không tồn tại", status: 404 }
+            end
+        rescue StandardError => e
+          return { success: false, message: "Có lỗi khi xóa sinh viên tình nguyện: #{e.message}", status: 400 }
+        end
+    end
+
 end

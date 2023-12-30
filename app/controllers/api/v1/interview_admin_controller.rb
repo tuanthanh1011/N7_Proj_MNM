@@ -16,7 +16,7 @@ class Api::V1::InterviewAdminController < ApplicationController
     render_response(result[:message], data: result[:data], status: result[:status])
   end
 
-  # Xóa mềm một bản ghi interview (by id)
+  # Xóa mềm nhiều bản ghi interview (by id)
   def destroy
     interviewCode = params[:interviewCode]
     result = InterviewAdminService.deleteInterviewService(interviewCode)
@@ -27,6 +27,20 @@ class Api::V1::InterviewAdminController < ApplicationController
       return
     end
 
+    render_response(result[:message], status: 200)
+  end
+
+  # Xóa mềm một bản ghi interview (by id)
+  def destroy_one
+    interviewCode = params[:id]
+    result = InterviewAdminService.deleteInterviewServiceOne(interviewCode)
+  
+    # Xử lý lỗi
+    unless result[:success]
+      render_response(result[:message], status: result[:status])
+      return
+    end
+  
     render_response(result[:message], status: 200)
   end
 

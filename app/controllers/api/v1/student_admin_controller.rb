@@ -28,11 +28,26 @@ class Api::V1::StudentAdminController < ApplicationController
       render_response(result[:message], data: result[:data], status: result[:status])
     end
 
-    # Hàm xóa sinh viên tình nguyện
+    # Hàm xóa nhiều sinh viên tình nguyện
     def delete_student_volunteer 
       studentCode = params[:studentCode]
 
       result = StudentAdminService.deleteVolunteerService(studentCode);
+
+      # Xử lý lỗi
+      unless result[:success]
+        render_response(result[:message], status: result[:status])
+        return
+      end
+
+      render_response(result[:message], status: 200)
+    end
+
+    # Hàm xóa một sinh viên tình nguyện
+    def delete_student_volunteer_one
+      studentCode = params[:id]
+
+      result = StudentAdminService.deleteVolunteerServiceOne(studentCode);
 
       # Xử lý lỗi
       unless result[:success]

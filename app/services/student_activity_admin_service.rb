@@ -75,7 +75,7 @@ class StudentActivityAdminService
             # Xóa tất cả bản ghi
             student_activity.delete_all
       
-            return { success: true, message: "Xóa sinh viên khỏi hoạt động thành công" }
+            return { success: true, message: "Xóa sinh viên khỏi hoạt động thành công", status: 200}
       
         rescue StandardError => e
             return { success: false, message: "Có lỗi khi xóa sinh viên tham gia hoạt động #{e.message}", status: 400 }
