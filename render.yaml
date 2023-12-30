@@ -2,7 +2,6 @@ databases:
   - name: mysite
     databaseName: Volunteer_Student_Management
     user: admin
-    password: YBdCAc0O
     plan: free
 
 services:
