@@ -121,6 +121,18 @@ end
     end
   end
 
+  # Hàm kiểm tra phòng phỏng vấn đã diễn ra hay chưa
+  def self.checkInterviewDate(interviewCode)
+    interview = Interview.find_by(InterviewCode: interviewCode)
+  
+    current_date = Date.current
+    interview_date = interview.InterviewDate.to_date
+  
+    if interview_date < current_date
+      return true
+    end
+  end
+
   # Hàm đăng ký phỏng vấn
   def self.applyInterviewService (studentCode, interviewCode)
     begin
@@ -130,12 +142,17 @@ end
         return { success: false, message: "Bạn đã đăng ký phỏng vấn trước đó rồi", status: 400}
       end
 
-       # Xử lý kiểm tra sinh viên đã đăng ký phỏng vấn trước đó ?
+      # Xử lý kiểm tra sinh viên đã đăng ký phỏng vấn trước đó ?
        if StudentInterviewService.isApplyInterviewStudent(studentCode, interviewCode)
         return { success: false, message: "Bạn đã đăng ký phỏng vấn này trước đó rồi", status: 400}
       end
 
-      # Xử lý kiểm tra số lượng tham gia của phòng phán đoán
+      # Xử lý kiểm tra buổi phỏng vấn đã kết thúc chưa
+       if StudentInterviewService.checkInterviewDate(interviewCode)
+        return { success: false, message: "Buổi phỏng vấn đã kết thúc", status: 400}
+      end
+
+      # Xử lý kiểm tra số lượng tham gia của phòng phỏng vấn  
       result = InterviewService.updateQtt(interviewCode)
       unless result[:success]
         return { success: false, message: result[:message], status: 400}
