@@ -71,7 +71,7 @@ class Api::V1::StudentAdminController < ApplicationController
       worksheet.row(0).concat %w{Mã_sinh_viên Tên_sinh_viên Lớp Số_điện_thoại Email Mã_tài_khoản Ngày_tạo}
     
       # Truy vấn cơ sở dữ liệu để lấy dữ liệu
-      data_from_db = Student.all
+      data_from_db = Student.where(isVolunteerStudent: true).all
     
       # Thêm dữ liệu từ cơ sở dữ liệu vào worksheet
       data_from_db.each_with_index do |data, index|
