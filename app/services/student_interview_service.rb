@@ -102,7 +102,17 @@ class StudentInterviewService
 end
 
   # Hàm kiểm tra sinh viên đã đăng ký phỏng vấn trước đó chưa
-  def self.isApplyInterview (studentCode, interviewCode)
+  def self.isApplyInterview (studentCode)
+    studentInterview = StudentInterview.find_by(StudentCode: studentCode, ResultInterview: nil)
+    if studentInterview
+      return true
+    else
+      return false
+    end
+  end
+
+   # Hàm kiểm tra sinh viên đã đăng ký phỏng vấn trước đó chưa
+   def self.isApplyInterviewStudent (studentCode, interviewCode)
     studentInterview = StudentInterview.find_by(StudentCode: studentCode, InterviewCode: interviewCode)
     if studentInterview
       return true
@@ -116,7 +126,12 @@ end
     begin
 
       # Xử lý kiểm tra sinh viên đã đăng ký phỏng vấn trước đó ?
-      if StudentInterviewService.isApplyInterview(studentCode, interviewCode)
+      if StudentInterviewService.isApplyInterview(studentCode)
+        return { success: false, message: "Bạn đã đăng ký phỏng vấn trước đó rồi", status: 400}
+      end
+
+       # Xử lý kiểm tra sinh viên đã đăng ký phỏng vấn trước đó ?
+       if StudentInterviewService.isApplyInterviewStudent(studentCode, interviewCode)
         return { success: false, message: "Bạn đã đăng ký phỏng vấn này trước đó rồi", status: 400}
       end
 
