@@ -68,7 +68,7 @@ class Api::V1::ActivityAdminController < ApplicationController
       params.delete(:id)
     end
 
-    result = ActivityService.updateActivity(activityCode, convert_params_to_uppercase(activity_params))
+    result = ActivityAdminService.updateActivity(activityCode, convert_params_to_uppercase(activity_params))
   
     unless result[:success] 
       render_response(result[:message], status: result[:status], errors: result[:errors])
@@ -82,7 +82,7 @@ class Api::V1::ActivityAdminController < ApplicationController
   # Hàm tạo mới hoạt động
   def create
 
-    result = ActivityService.createActivity(convert_params_to_uppercase(activity_params))
+    result = ActivityAdminService.createActivity(convert_params_to_uppercase(activity_params))
 
     unless result[:success]
       render_response(result[:message], status: result[:status], errors: result[:errors])
